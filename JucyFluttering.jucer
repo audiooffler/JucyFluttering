@@ -32,7 +32,7 @@
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <EXPORTFORMATS>
-    <ANDROIDSTUDIO targetFolder="Builds/Android" androidCustomAppBuildGradleContent="    defaultConfig {&#10;      ndk {&#10;        // filter for architectures supported by Flutter&#10;        abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'&#10;      }&#10;    }">
+    <ANDROIDSTUDIO targetFolder="Builds/Android" androidCustomAppBuildGradleContent="    defaultConfig {&#10;      ndk {&#10;        // filter for architectures supported by Flutter&#10;        abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'&#10;      }&#10;    }&#10;&#10;    compileOptions {&#10;      // Flutter Android engine uses Java 8 features&#10;      sourceCompatibility 1.8&#10;      targetCompatibility 1.8&#10;    }">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="JucyFluttering"/>
