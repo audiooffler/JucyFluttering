@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT name="JucyFluttering" companyName="Tech &amp; Life Solutions GmbH"
+              version="0.0.1" userNotes="A simple mobile app example (iOS, Android) that uses a Flutter UI and JUCE for audio."
+              companyWebsite="http://wwww.tech-and-life.de" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="1" id="sRCsV2" displaySplashScreen="1"
+              jucerFormatVersion="1" bundleIdentifier="de.techandlife.jucyfluttering"
+              companyCopyright="&#169; 2020, Tech &amp; Life Solutions GmbH"
+              companyEmail="info@tech-and-life.de" projectType="guiapp">
+  <MAINGROUP id="SZNZjr" name="JucyFluttering">
+    <GROUP id="{40BAE86D-C76B-DD3D-23C7-9D7BA3100AC6}" name="Source">
+      <FILE id="tReWgR" name="JucyFlutteringJuceComponent.h" compile="0"
+            resource="0" file="Source/JucyFlutteringJuceComponent.h"/>
+      <FILE id="j17aii" name="JucyFlutteringJuceMainWindow.h" compile="0"
+            resource="0" file="Source/JucyFlutteringJuceMainWindow.h"/>
+      <FILE id="dCA2vS" name="JucyFlutteringJuceApplication.cpp" compile="1"
+            resource="0" file="Source/JucyFlutteringJuceApplication.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <EXPORTFORMATS>
+    <ANDROIDSTUDIO targetFolder="Builds/Android" androidCustomAppBuildGradleContent="    defaultConfig {&#10;      ndk {&#10;        // filter for architectures supported by Flutter&#10;        abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'&#10;      }&#10;    }">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="JucyFluttering"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path=""/>
+        <MODULEPATH id="juce_events" path=""/>
+        <MODULEPATH id="juce_audio_basics" path=""/>
+        <MODULEPATH id="juce_audio_devices" path=""/>
+        <MODULEPATH id="juce_audio_formats" path=""/>
+        <MODULEPATH id="juce_audio_processors" path=""/>
+        <MODULEPATH id="juce_audio_utils" path=""/>
+        <MODULEPATH id="juce_dsp" path=""/>
+        <MODULEPATH id="juce_data_structures" path=""/>
+        <MODULEPATH id="juce_graphics" path=""/>
+        <MODULEPATH id="juce_gui_basics" path=""/>
+        <MODULEPATH id="juce_gui_extra" path=""/>
+      </MODULEPATHS>
+    </ANDROIDSTUDIO>
+    <XCODE_IPHONE targetFolder="Builds/iOS">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"
+                       customXcodeFlags="SUPPORTS_MACCATALYST=NO"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="JucyFluttering"
+                       customXcodeFlags="SUPPORTS_MACCATALYST=NO"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path=""/>
+        <MODULEPATH id="juce_events" path=""/>
+        <MODULEPATH id="juce_audio_basics" path=""/>
+        <MODULEPATH id="juce_audio_devices" path=""/>
+        <MODULEPATH id="juce_audio_formats" path=""/>
+        <MODULEPATH id="juce_audio_processors" path=""/>
+        <MODULEPATH id="juce_audio_utils" path=""/>
+        <MODULEPATH id="juce_dsp" path=""/>
+        <MODULEPATH id="juce_data_structures" path=""/>
+        <MODULEPATH id="juce_graphics" path=""/>
+        <MODULEPATH id="juce_gui_basics" path=""/>
+        <MODULEPATH id="juce_gui_extra" path=""/>
+      </MODULEPATHS>
+    </XCODE_IPHONE>
+  </EXPORTFORMATS>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <LIVE_SETTINGS>
+    <OSX buildEnabled="1" continuousRebuildEnabled="1"/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>
