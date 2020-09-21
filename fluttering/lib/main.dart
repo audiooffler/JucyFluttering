@@ -11,15 +11,15 @@ final DynamicLibrary juce = Platform.isAndroid
     : DynamicLibrary.process();
 
 // Get C function reference, put it into a variable. Ues the typedefs defined above, along with the dynamic library variable
-final void Function() hello =
-    juce.lookup<NativeFunction<Void Function()>>('hello_world').asFunction();
+final int Function(int number_in) juce_increment =
+    juce.lookup<NativeFunction<Int32 Function(Int32)>>('increment').asFunction();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Jucy Fluttering - Flutter UI on JUCE Backend',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'My Fluttering Demo Home Page'),
     );
   }
 }
@@ -64,8 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
-      hello();
+      _counter = juce_increment(_counter);
     });
   }
 
@@ -104,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'JUCE helped you to increment up to:',
             ),
             Text(
               '$_counter',
@@ -115,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'Let JUCE increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

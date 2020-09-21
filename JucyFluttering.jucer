@@ -34,10 +34,10 @@
   <EXPORTFORMATS>
     <ANDROIDSTUDIO targetFolder="Builds/Android" androidCustomAppBuildGradleContent="    defaultConfig {&#10;      ndk {&#10;        // filter for architectures supported by Flutter&#10;        abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'&#10;      }&#10;    }&#10;&#10;    compileOptions {&#10;      // Flutter Android engine uses Java 8 features&#10;      sourceCompatibility 1.8&#10;      targetCompatibility 1.8&#10;    }"
                    androidGradleSettingsContent="setBinding(new Binding([gradle: this]))&#10;evaluate(new File(&#10;  settingsDir.parentFile.parentFile,&#10;  'fluttering/.android/include_flutter.groovy'&#10;))"
-                   androidBluetoothNeeded="0" userNotes="https://flutter.dev/docs/development/add-to-app/android&#10;debug flutter using terminal command flutter attach"
+                   androidBluetoothNeeded="0" userNotes="https://flutter.dev/docs/development/add-to-app/android https://flutter.dev/docs/development/platform-integration/c-interop&#10;&#10;for flutter debugging/hot-loading etc from android studio&#10;- run/debug the android app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
                    androidActivitySubClassName="de.techandlife.jucyfluttering.FlutteringActivity"
                    androidAdditionalJavaFolders="Source" androidCustomApplicationClass="de.techandlife.jucyfluttering.FlutteringApplication"
-                   androidDependencies="implementation project(':flutter')">
+                   androidDependencies="implementation project(':flutter')" androidTheme="@android:style/Theme.NoTitleBar">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="JucyFluttering"/>

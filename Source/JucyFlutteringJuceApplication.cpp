@@ -2,9 +2,10 @@
 #include "JucyFlutteringJuceMainWindow.h"
 #include "JucyFlutteringJuceComponent.h"
 
-extern "C" void hello_world()
+extern "C" int increment(int in)
 {
-    DBG("Hello World from JUCE library.");
+    DBG("JUCE incrementing "+String(in)+" to "+String(in + 1));
+    return in + 1;
 }
 
 class JucyFlutteringJuceApplication    : public juce::JUCEApplication, public Timer
