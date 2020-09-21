@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'dart:ffi';
+import 'dart:io'; // For Platform.isAndroid
 
 void main() => runApp(MyApp());
+
+// see https://dart.dev/guides/libraries/c-interop
+// Open the dynamic library
+final DynamicLibrary juce = Platform.isAndroid
+    ? DynamicLibrary.open('libjuce_jni.so')
+    : DynamicLibrary.process();
+
+// Get C function reference, put it into a variable. Ues the typedefs defined above, along with the dynamic library variable
+final void Function() hello =
+    juce.lookup<NativeFunction<Void Function()>>('hello_world').asFunction();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -53,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      hello();
     });
   }
 

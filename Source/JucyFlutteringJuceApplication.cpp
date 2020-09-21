@@ -2,7 +2,12 @@
 #include "JucyFlutteringJuceMainWindow.h"
 #include "JucyFlutteringJuceComponent.h"
 
-class JucyFlutteringJuceApplication    : public juce::JUCEApplication
+extern "C" void hello_world()
+{
+    DBG("Hello World from JUCE library.");
+}
+
+class JucyFlutteringJuceApplication    : public juce::JUCEApplication, public Timer
 {
 public:
     //==============================================================================
@@ -13,7 +18,8 @@ public:
 
     void initialise (const juce::String&) override
     {
-        jucyFlutteringJuceMainWindow.reset (new JucyFlutteringJuceMainWindow (getApplicationName()));
+        //jucyFlutteringJuceMainWindow.reset (new JucyFlutteringJuceMainWindow (getApplicationName()));
+        startTimer(1000);
     }
 
     void shutdown() override                         { jucyFlutteringJuceMainWindow = nullptr; }
@@ -23,8 +29,15 @@ public:
         quit();
     }
 
+    void timerCallback() override
+    {
+        DBG("timer "+String(i));
+        i++;
+    }
+
 private:
     std::unique_ptr<JucyFlutteringJuceMainWindow> jucyFlutteringJuceMainWindow;
+    int i=0;
 };
 
 //==============================================================================
