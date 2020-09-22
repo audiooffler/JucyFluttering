@@ -12,7 +12,7 @@
 
 // === C++ Symbol export =======================================================
 
-/* extern "C" */ int increment(int in)
+/* EXTERN_C */ int increment(int in)
 {
     DBG("JUCE incrementing "+String(in)+" to "+String(in + 1));
     return in + 1;

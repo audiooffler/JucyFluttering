@@ -82,5 +82,5 @@ flutter:
   # identifiers, which may be completely independent or the same as these.
   module:
     androidX: true
-    androidPackage: de.techandlife.fluttering
-    iosBundleIdentifier: de.techandlife.fluttering
+    androidPackage: eu.selfhost.audiooffler.fluttering
+    iosBundleIdentifier: eu.selfhost.audiooffler.fluttering

@@ -1,4 +1,4 @@
-package de.techandlife.jucyfluttering;
+package eu.selfhost.audiooffler.jucyfluttering;
 
 import android.app.Application;
 import io.flutter.embedding.engine.FlutterEngine;

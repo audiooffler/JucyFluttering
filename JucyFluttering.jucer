@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT name="JucyFluttering" companyName="Tech &amp; Life Solutions GmbH"
-              version="0.0.1" userNotes="A simple mobile app example (iOS, Android) that uses a Flutter UI and JUCE for audio."
-              companyWebsite="http://wwww.tech-and-life.de" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="1" id="sRCsV2" displaySplashScreen="1"
-              jucerFormatVersion="1" bundleIdentifier="de.techandlife.jucyfluttering"
-              companyCopyright="&#169; 2020, Tech &amp; Life Solutions GmbH"
-              companyEmail="info@tech-and-life.de" projectType="guiapp">
+<JUCERPROJECT name="JucyFluttering" version="0.0.1" userNotes="A simple mobile app example (iOS, Android) that uses a Flutter UI and JUCE as backend."
+              useAppConfig="0" addUsingNamespaceToJuceHeader="1" id="sRCsV2"
+              displaySplashScreen="1" jucerFormatVersion="1" bundleIdentifier="eu.selfhost.audiooffler"
+              companyCopyright="&#169; 2020, audiooffler" companyEmail="sp.martin@gmx.net"
+              projectType="guiapp" companyName="audiooffler" companyWebsite="audiooffler.selfhost.eu">
   <MAINGROUP id="SZNZjr" name="JucyFluttering">
     <GROUP id="{40BAE86D-C76B-DD3D-23C7-9D7BA3100AC6}" name="Source">
+      <GROUP id="{74603C61-1D44-110B-4B95-C98AC12BE058}" name="Flutter">
+        <FILE id="g4NwYJ" name="main.dart" compile="0" resource="0" file="fluttering/lib/main.dart"/>
+      </GROUP>
+      <GROUP id="{B48EEC09-CE31-4EC6-3DC3-9035E5506A50}" name="Android">
+        <GROUP id="{C9A38296-4597-819F-C39F-6B96F91EE2C9}" name="eu">
+          <GROUP id="{4FE22646-BE38-31A6-0BA7-56577682122C}" name="selfhost">
+            <GROUP id="{A249CA55-370C-162E-6104-4BA9039C367F}" name="audiooffler">
+              <GROUP id="{07E6F9B2-246C-A7B2-8E21-B8CF2A6ABB43}" name="jucyfluttering">
+                <FILE id="vh3Jbn" name="FlutteringActivity.java" compile="0" resource="0"
+                      file="Source/Android/eu/selfhost/audiooffler/jucyfluttering/FlutteringActivity.java"/>
+                <FILE id="zcyaJw" name="FlutteringApplication.java" compile="0" resource="0"
+                      file="Source/Android/eu/selfhost/audiooffler/jucyfluttering/FlutteringApplication.java"/>
+              </GROUP>
+            </GROUP>
+          </GROUP>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{41E61A95-A0E7-1E8D-A1BA-EB53EFA97A28}" name="iOS">
+        <FILE id="oO7sSN" name="IOSAppDelegate.mm" compile="1" resource="0"
+              file="Source/iOS/IOSAppDelegate.mm"/>
+        <FILE id="sTtouo" name="IOSAppDelegate.h" compile="0" resource="0"
+              file="Source/iOS/IOSAppDelegate.h"/>
+      </GROUP>
       <FILE id="ri5sbI" name="JucyFlutteringJuceApplication.cpp" compile="1"
             resource="0" file="Source/JucyFlutteringJuceApplication.cpp"/>
       <FILE id="rAXYEf" name="JucyFlutteringJuceApplication.h" compile="0"
             resource="0" file="Source/JucyFlutteringJuceApplication.h"/>
-      <FILE id="f0q2xy" name="IOSAppDelegate.h" compile="0" resource="0"
-            file="Source/IOSAppDelegate.h"/>
-      <FILE id="pYaVmm" name="IOSAppDelegate.mm" compile="1" resource="0"
-            file="Source/IOSAppDelegate.mm"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
-    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <EXPORTFORMATS>
     <ANDROIDSTUDIO targetFolder="Builds/Android" androidCustomAppBuildGradleContent="    defaultConfig {&#10;      ndk {&#10;        // filter for architectures supported by Flutter&#10;        abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'&#10;      }&#10;    }&#10;&#10;    compileOptions {&#10;      // Flutter Android engine uses Java 8 features&#10;      sourceCompatibility 1.8&#10;      targetCompatibility 1.8&#10;    }"
                    androidGradleSettingsContent="setBinding(new Binding([gradle: this]))&#10;evaluate(new File(&#10;  settingsDir.parentFile.parentFile,&#10;  'fluttering/.android/include_flutter.groovy'&#10;))"
                    androidBluetoothNeeded="0" userNotes="https://flutter.dev/docs/development/add-to-app/android https://flutter.dev/docs/development/platform-integration/c-interop&#10;&#10;set some projucer settings for gradle / build configuation.&#10;&#10;for flutter debugging/hot-loading etc from android studio&#10;- run/debug the android app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
-                   androidActivitySubClassName="de.techandlife.jucyfluttering.FlutteringActivity"
-                   androidAdditionalJavaFolders="Source" androidCustomApplicationClass="de.techandlife.jucyfluttering.FlutteringApplication"
+                   androidActivitySubClassName="eu.selfhost.audiooffler.jucyfluttering.FlutteringActivity"
+                   androidAdditionalJavaFolders="Source/Android" androidCustomApplicationClass="eu.selfhost.audiooffler.jucyfluttering.FlutteringApplication"
                    androidDependencies="implementation project(':flutter')" androidTheme="@android:style/Theme.NoTitleBar">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"/>
@@ -47,16 +57,9 @@
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path=""/>
         <MODULEPATH id="juce_events" path=""/>
-        <MODULEPATH id="juce_audio_basics" path=""/>
-        <MODULEPATH id="juce_audio_devices" path=""/>
-        <MODULEPATH id="juce_audio_formats" path=""/>
-        <MODULEPATH id="juce_audio_processors" path=""/>
-        <MODULEPATH id="juce_audio_utils" path=""/>
-        <MODULEPATH id="juce_dsp" path=""/>
-        <MODULEPATH id="juce_data_structures" path=""/>
-        <MODULEPATH id="juce_graphics" path=""/>
-        <MODULEPATH id="juce_gui_basics" path=""/>
-        <MODULEPATH id="juce_gui_extra" path=""/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
       </MODULEPATHS>
     </ANDROIDSTUDIO>
     <XCODE_IPHONE targetFolder="Builds/iOS" userNotes="https://flutter.dev/docs/development/add-to-app/ios/&#10;&#10;set projucer PList custom content for IOSAppDelegate&#10;&#10;set projucer binary build dir for ios targets to: &quot;$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)&quot;, see https://forum.juce.com/t/solved-cocoapods-and-introjucer-generated-projects-linker-error-react-native/16426&#10;&#10;after exporting projucer, with installed cocoapods (&quot;sudo gem install cocoapod&quot;):&#10;&quot;cd Builds/iOS&quot;&#10;&quot;pod install&quot;&#10;open and build the .xcworkspace file in XCode (NOT the .xcodeproj - this will fail to build)&#10;&#10;for flutter debugging/hot-loading etc&#10;- run/debug the app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
@@ -70,16 +73,9 @@
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path=""/>
         <MODULEPATH id="juce_events" path=""/>
-        <MODULEPATH id="juce_audio_basics" path=""/>
-        <MODULEPATH id="juce_audio_devices" path=""/>
-        <MODULEPATH id="juce_audio_formats" path=""/>
-        <MODULEPATH id="juce_audio_processors" path=""/>
-        <MODULEPATH id="juce_audio_utils" path=""/>
-        <MODULEPATH id="juce_dsp" path=""/>
-        <MODULEPATH id="juce_data_structures" path=""/>
-        <MODULEPATH id="juce_graphics" path=""/>
-        <MODULEPATH id="juce_gui_basics" path=""/>
-        <MODULEPATH id="juce_gui_extra" path=""/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_IPHONE>
   </EXPORTFORMATS>

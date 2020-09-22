@@ -11,7 +11,7 @@
 
 // import iOS headers before JUCE includes to avoid abiguities for class names
 #import "IOSAppDelegate.h"
-#include "JucyFlutteringJuceApplication.h"
+#include "../JucyFlutteringJuceApplication.h"
 
 #if JUCE_IOS
 

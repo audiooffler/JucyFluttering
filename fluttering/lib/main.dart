@@ -8,11 +8,12 @@ void main() => runApp(MyApp());
 // Open the dynamic library
 final DynamicLibrary juce = Platform.isAndroid
     ? DynamicLibrary.open('libjuce_jni.so')
-    : DynamicLibrary.process();
+    : DynamicLibrary.executable();
 
 // Get C function reference, put it into a variable. Ues the typedefs defined above, along with the dynamic library variable
-final int Function(int number_in) juce_increment =
-    juce.lookup<NativeFunction<Int32 Function(Int32)>>('increment').asFunction();
+final int Function(int number_in) juce_increment = juce
+    .lookup<NativeFunction<Int32 Function(Int32)>>('increment')
+    .asFunction();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
