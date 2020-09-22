@@ -9,12 +9,14 @@
               companyEmail="info@tech-and-life.de" projectType="guiapp">
   <MAINGROUP id="SZNZjr" name="JucyFluttering">
     <GROUP id="{40BAE86D-C76B-DD3D-23C7-9D7BA3100AC6}" name="Source">
-      <FILE id="tReWgR" name="JucyFlutteringJuceComponent.h" compile="0"
-            resource="0" file="Source/JucyFlutteringJuceComponent.h"/>
-      <FILE id="j17aii" name="JucyFlutteringJuceMainWindow.h" compile="0"
-            resource="0" file="Source/JucyFlutteringJuceMainWindow.h"/>
-      <FILE id="dCA2vS" name="JucyFlutteringJuceApplication.cpp" compile="1"
+      <FILE id="ri5sbI" name="JucyFlutteringJuceApplication.cpp" compile="1"
             resource="0" file="Source/JucyFlutteringJuceApplication.cpp"/>
+      <FILE id="rAXYEf" name="JucyFlutteringJuceApplication.h" compile="0"
+            resource="0" file="Source/JucyFlutteringJuceApplication.h"/>
+      <FILE id="f0q2xy" name="IOSAppDelegate.h" compile="0" resource="0"
+            file="Source/IOSAppDelegate.h"/>
+      <FILE id="pYaVmm" name="IOSAppDelegate.mm" compile="1" resource="0"
+            file="Source/IOSAppDelegate.mm"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
@@ -34,7 +36,7 @@
   <EXPORTFORMATS>
     <ANDROIDSTUDIO targetFolder="Builds/Android" androidCustomAppBuildGradleContent="    defaultConfig {&#10;      ndk {&#10;        // filter for architectures supported by Flutter&#10;        abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'&#10;      }&#10;    }&#10;&#10;    compileOptions {&#10;      // Flutter Android engine uses Java 8 features&#10;      sourceCompatibility 1.8&#10;      targetCompatibility 1.8&#10;    }"
                    androidGradleSettingsContent="setBinding(new Binding([gradle: this]))&#10;evaluate(new File(&#10;  settingsDir.parentFile.parentFile,&#10;  'fluttering/.android/include_flutter.groovy'&#10;))"
-                   androidBluetoothNeeded="0" userNotes="https://flutter.dev/docs/development/add-to-app/android https://flutter.dev/docs/development/platform-integration/c-interop&#10;&#10;for flutter debugging/hot-loading etc from android studio&#10;- run/debug the android app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
+                   androidBluetoothNeeded="0" userNotes="https://flutter.dev/docs/development/add-to-app/android https://flutter.dev/docs/development/platform-integration/c-interop&#10;&#10;set some projucer settings for gradle / build configuation.&#10;&#10;for flutter debugging/hot-loading etc from android studio&#10;- run/debug the android app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
                    androidActivitySubClassName="de.techandlife.jucyfluttering.FlutteringActivity"
                    androidAdditionalJavaFolders="Source" androidCustomApplicationClass="de.techandlife.jucyfluttering.FlutteringApplication"
                    androidDependencies="implementation project(':flutter')" androidTheme="@android:style/Theme.NoTitleBar">
@@ -57,12 +59,13 @@
         <MODULEPATH id="juce_gui_extra" path=""/>
       </MODULEPATHS>
     </ANDROIDSTUDIO>
-    <XCODE_IPHONE targetFolder="Builds/iOS">
+    <XCODE_IPHONE targetFolder="Builds/iOS" userNotes="https://flutter.dev/docs/development/add-to-app/ios/&#10;&#10;set projucer PList custom content for IOSAppDelegate&#10;&#10;set projucer binary build dir for ios targets to: &quot;$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)&quot;, see https://forum.juce.com/t/solved-cocoapods-and-introjucer-generated-projects-linker-error-react-native/16426&#10;&#10;after exporting projucer, with installed cocoapods (&quot;sudo gem install cocoapod&quot;):&#10;&quot;cd Builds/iOS&quot;&#10;&quot;pod install&quot;&#10;open and build the .xcworkspace file in XCode (NOT the .xcodeproj - this will fail to build)&#10;&#10;for flutter debugging/hot-loading etc&#10;- run/debug the app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
+                  customPList="&lt;plist&gt;&#10;&lt;dict&gt;&#10;&lt;key&gt;UIBackgroundModes&lt;/key&gt;&#10;&lt;array&gt;&#10;  &#9;&#9;&lt;string&gt;fetch&lt;/string&gt;&#10;&#9;&#9;  &lt;string&gt;remote-notification&lt;/string&gt;&#10;&#9;&lt;/array&gt;&#10;&lt;/dict&gt;&#10;&lt;/plist&gt;">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"
-                       customXcodeFlags="SUPPORTS_MACCATALYST=NO"/>
+                       binaryPath="$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="JucyFluttering"
-                       customXcodeFlags="SUPPORTS_MACCATALYST=NO"/>
+                       binaryPath="$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path=""/>
@@ -82,6 +85,6 @@
   </EXPORTFORMATS>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
   <LIVE_SETTINGS>
-    <OSX buildEnabled="1" continuousRebuildEnabled="1"/>
+    <OSX buildEnabled="0" continuousRebuildEnabled="1"/>
   </LIVE_SETTINGS>
 </JUCERPROJECT>

@@ -1,45 +1,67 @@
-#include <JuceHeader.h>
-#include "JucyFlutteringJuceMainWindow.h"
-#include "JucyFlutteringJuceComponent.h"
+/*
+  ==============================================================================
 
-extern "C" int increment(int in)
+    JucyFlutteringJuceApplication.cpp
+    Created: 22 Sep 2020
+    Author:  audiooffler <sp.martin@gmx.net>
+ 
+  ==============================================================================
+*/
+
+#include "JucyFlutteringJuceApplication.h"
+
+// === C++ Symbol export =======================================================
+
+/* extern "C" */ int increment(int in)
 {
     DBG("JUCE incrementing "+String(in)+" to "+String(in + 1));
     return in + 1;
 }
 
-class JucyFlutteringJuceApplication    : public juce::JUCEApplication, public Timer
-{
-public:
-    //==============================================================================
-    JucyFlutteringJuceApplication() = default;
 
-    const juce::String getApplicationName() override       { return "JucyFluttering"; }
-    const juce::String getApplicationVersion() override    { return "0.0.1"; }
 
-    void initialise (const juce::String&) override
-    {
-        //jucyFlutteringJuceMainWindow.reset (new JucyFlutteringJuceMainWindow (getApplicationName()));
-        startTimer(1000);
-    }
+// === JUCE App Entry ==========================================================
 
-    void shutdown() override                         { jucyFlutteringJuceMainWindow = nullptr; }
-    
-    void systemRequestedQuit() override
-    {
-        quit();
-    }
-
-    void timerCallback() override
-    {
-        DBG("timer "+String(i));
-        i++;
-    }
-
-private:
-    std::unique_ptr<JucyFlutteringJuceMainWindow> jucyFlutteringJuceMainWindow;
-    int i=0;
-};
-
-//==============================================================================
+// for iOS, see IOSAppDelegate, else start juce app
+#if !JUCE_IOS
 START_JUCE_APPLICATION (JucyFlutteringJuceApplication)
+#endif
+
+
+
+// === Class JucyFlutteringJuceApplication =====================================
+
+const String JucyFlutteringJuceApplication::getApplicationName()
+{
+    return "JucyFluttering";
+}
+
+const String JucyFlutteringJuceApplication::getApplicationVersion()
+{
+    return "0.0.1";
+}
+
+void JucyFlutteringJuceApplication::initialise (const juce::String&)
+{
+    startTimer(1000);
+}
+
+void JucyFlutteringJuceApplication::systemRequestedQuit()
+{
+    quit();
+}
+
+void JucyFlutteringJuceApplication::shutdown()
+{
+    
+}
+
+// ---- Timer implementation ---------------------------------------------------
+
+void JucyFlutteringJuceApplication::timerCallback()
+{
+    DBG("timer "+String(i));
+    i++;
+}
+
+// === END of Class JucyFlutteringJuceApplication ==============================
