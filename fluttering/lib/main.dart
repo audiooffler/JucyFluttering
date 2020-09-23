@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:ffi';
-import 'dart:io'; // For Platform.isAndroid
+import 'jucy_fluttering_interop.dart';
 
-void main() => runApp(MyApp());
-
-// see https://dart.dev/guides/libraries/c-interop
-// Open the dynamic library
-final DynamicLibrary juce = Platform.isAndroid
-    ? DynamicLibrary.open('libjuce_jni.so')
-    : DynamicLibrary.executable();
-
-// Get C function reference, put it into a variable. Ues the typedefs defined above, along with the dynamic library variable
-final int Function(int number_in) juce_increment = juce
-    .lookup<NativeFunction<Int32 Function(Int32)>>('increment')
-    .asFunction();
+void main() {
+  runApp(MyApp());
+  print(juce);
+  print(juceIncrement);
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -65,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter = juce_increment(_counter);
+      _counter = juceIncrement(_counter);
     });
   }
 

@@ -15,13 +15,8 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
-
-// === C++ Symbol export =======================================================
-
-#define EXTERN_C extern "C" __attribute__((visibility("default"))) __attribute__((used))
-
-EXTERN_C int increment(int in);
+#include "JuceHeader.h"
+#include "JucyFlutteringInterop.h"
 
 // === Class JucyFlutteringJuceApplication =====================================
 

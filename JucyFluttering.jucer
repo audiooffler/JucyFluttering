@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT name="JucyFluttering" version="0.0.1" userNotes="A simple mobile app example (iOS, Android) that uses a Flutter UI and JUCE as backend."
+<JUCERPROJECT name="Jucy Fluttering" version="0.0.1" userNotes="A simple mobile app example (iOS, Android) that uses a Flutter UI and JUCE as backend."
               useAppConfig="0" addUsingNamespaceToJuceHeader="1" id="sRCsV2"
               displaySplashScreen="1" jucerFormatVersion="1" bundleIdentifier="eu.selfhost.audiooffler"
               companyCopyright="&#169; 2020, audiooffler" companyEmail="sp.martin@gmx.net"
               projectType="guiapp" companyName="audiooffler" companyWebsite="audiooffler.selfhost.eu">
-  <MAINGROUP id="SZNZjr" name="JucyFluttering">
+  <MAINGROUP id="SZNZjr" name="Jucy Fluttering">
     <GROUP id="{40BAE86D-C76B-DD3D-23C7-9D7BA3100AC6}" name="Source">
-      <GROUP id="{74603C61-1D44-110B-4B95-C98AC12BE058}" name="Flutter">
-        <FILE id="g4NwYJ" name="main.dart" compile="0" resource="0" file="fluttering/lib/main.dart"/>
-      </GROUP>
       <GROUP id="{B48EEC09-CE31-4EC6-3DC3-9035E5506A50}" name="Android">
         <GROUP id="{C9A38296-4597-819F-C39F-6B96F91EE2C9}" name="eu">
           <GROUP id="{4FE22646-BE38-31A6-0BA7-56577682122C}" name="selfhost">
@@ -24,17 +21,26 @@
           </GROUP>
         </GROUP>
       </GROUP>
+      <GROUP id="{74603C61-1D44-110B-4B95-C98AC12BE058}" name="Flutter">
+        <FILE id="g4NwYJ" name="main.dart" compile="0" resource="0" file="fluttering/lib/main.dart"/>
+      </GROUP>
       <GROUP id="{41E61A95-A0E7-1E8D-A1BA-EB53EFA97A28}" name="iOS">
         <FILE id="oO7sSN" name="IOSAppDelegate.mm" compile="1" resource="0"
               file="Source/iOS/IOSAppDelegate.mm"/>
         <FILE id="sTtouo" name="IOSAppDelegate.h" compile="0" resource="0"
               file="Source/iOS/IOSAppDelegate.h"/>
       </GROUP>
+      <FILE id="LwQQ6R" name="JucyFlutteringInterop.cpp" compile="1" resource="0"
+            file="Source/JucyFlutteringInterop.cpp"/>
+      <FILE id="l3rvUt" name="JucyFlutteringInterop.h" compile="0" resource="0"
+            file="Source/JucyFlutteringInterop.h"/>
       <FILE id="ri5sbI" name="JucyFlutteringJuceApplication.cpp" compile="1"
             resource="0" file="Source/JucyFlutteringJuceApplication.cpp"/>
       <FILE id="rAXYEf" name="JucyFlutteringJuceApplication.h" compile="0"
             resource="0" file="Source/JucyFlutteringJuceApplication.h"/>
     </GROUP>
+    <FILE id="klBN0Z" name="jucyFlutteringIcon.svg" compile="0" resource="0"
+          file="jucyFlutteringIcon.svg"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
@@ -49,7 +55,8 @@
                    androidBluetoothNeeded="0" userNotes="https://flutter.dev/docs/development/add-to-app/android https://flutter.dev/docs/development/platform-integration/c-interop&#10;&#10;set some projucer settings for gradle / build configuation.&#10;&#10;for flutter debugging/hot-loading etc from android studio&#10;- run/debug the android app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
                    androidActivitySubClassName="eu.selfhost.audiooffler.jucyfluttering.FlutteringActivity"
                    androidAdditionalJavaFolders="Source/Android" androidCustomApplicationClass="eu.selfhost.audiooffler.jucyfluttering.FlutteringApplication"
-                   androidDependencies="implementation project(':flutter')" androidTheme="@android:style/Theme.NoTitleBar">
+                   androidDependencies="implementation project(':flutter')" androidTheme="@android:style/Theme.NoTitleBar"
+                   smallIcon="klBN0Z" bigIcon="klBN0Z">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="JucyFluttering"/>
@@ -63,7 +70,8 @@
       </MODULEPATHS>
     </ANDROIDSTUDIO>
     <XCODE_IPHONE targetFolder="Builds/iOS" userNotes="https://flutter.dev/docs/development/add-to-app/ios/&#10;&#10;set projucer PList custom content for IOSAppDelegate&#10;&#10;set projucer binary build dir for ios targets to: &quot;$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)&quot;, see https://forum.juce.com/t/solved-cocoapods-and-introjucer-generated-projects-linker-error-react-native/16426&#10;&#10;after exporting projucer, with installed cocoapods (&quot;sudo gem install cocoapod&quot;):&#10;&quot;cd Builds/iOS&quot;&#10;&quot;pod install&quot;&#10;open and build the .xcworkspace file in XCode (NOT the .xcodeproj - this will fail to build)&#10;&#10;for flutter debugging/hot-loading etc&#10;- run/debug the app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
-                  customPList="&lt;plist&gt;&#10;&lt;dict&gt;&#10;&lt;key&gt;UIBackgroundModes&lt;/key&gt;&#10;&lt;array&gt;&#10;  &#9;&#9;&lt;string&gt;fetch&lt;/string&gt;&#10;&#9;&#9;  &lt;string&gt;remote-notification&lt;/string&gt;&#10;&#9;&lt;/array&gt;&#10;&lt;/dict&gt;&#10;&lt;/plist&gt;">
+                  customPList="&lt;plist&gt;&#10;&lt;dict&gt;&#10;&lt;key&gt;UIBackgroundModes&lt;/key&gt;&#10;&lt;array&gt;&#10;  &#9;&#9;&lt;string&gt;fetch&lt;/string&gt;&#10;&#9;&#9;  &lt;string&gt;remote-notification&lt;/string&gt;&#10;&#9;&lt;/array&gt;&#10;&lt;/dict&gt;&#10;&lt;/plist&gt;"
+                  smallIcon="klBN0Z" bigIcon="klBN0Z">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"
                        binaryPath="$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)"/>
