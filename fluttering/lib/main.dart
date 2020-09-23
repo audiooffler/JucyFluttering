@@ -3,8 +3,6 @@ import 'jucy_fluttering_interop.dart';
 
 void main() {
   runApp(MyApp());
-  print(juce);
-  print(juceIncrement);
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Jucy Fluttering - Flutter UI on JUCE Backend',
+      title: getAppName(),
       theme: ThemeData(
         // This is the theme of your application.
         //

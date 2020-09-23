@@ -8,6 +8,7 @@
   ==============================================================================
 */
 #include "JucyFlutteringJuceApplication.h"
+#include "JucyFlutteringInterop.h"
 
 // === JUCE App Entry ==========================================================
 
@@ -22,7 +23,7 @@ START_JUCE_APPLICATION (JucyFlutteringJuceApplication)
 
 const String JucyFlutteringJuceApplication::getApplicationName()
 {
-    return "JucyFluttering";
+    return "Jucy Fluttering";
 }
 
 const String JucyFlutteringJuceApplication::getApplicationVersion()

@@ -30,8 +30,6 @@
         <FILE id="sTtouo" name="IOSAppDelegate.h" compile="0" resource="0"
               file="Source/iOS/IOSAppDelegate.h"/>
       </GROUP>
-      <FILE id="LwQQ6R" name="JucyFlutteringInterop.cpp" compile="1" resource="0"
-            file="Source/JucyFlutteringInterop.cpp"/>
       <FILE id="l3rvUt" name="JucyFlutteringInterop.h" compile="0" resource="0"
             file="Source/JucyFlutteringInterop.h"/>
       <FILE id="ri5sbI" name="JucyFlutteringJuceApplication.cpp" compile="1"

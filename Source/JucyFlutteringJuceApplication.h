@@ -16,7 +16,6 @@
 #pragma once
 
 #include "JuceHeader.h"
-#include "JucyFlutteringInterop.h"
 
 // === Class JucyFlutteringJuceApplication =====================================
 
