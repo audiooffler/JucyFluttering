@@ -1,30 +1,52 @@
 import 'dart:ffi';
 import 'dart:io' show Platform; // For Platform.isAndroid
 import 'package:ffi/ffi.dart';
+import 'dart:isolate';
 
-// see https://dart.dev/guides/libraries/c-interop
-// Open the dynamic library
-final DynamicLibrary juce = () {
-  var lib;
+import 'package:fluttering/main.dart';
+
+DynamicLibrary loadJuceLibrary() {
+  DynamicLibrary lib;
   try {
     lib = (Platform.isAndroid)
-        ? DynamicLibrary.open(
-            'libjuce_jni.so') // for android juce is a dyn. lib
-        : DynamicLibrary.process(); // else juce is statically linked;
-  } catch (exception) {
-    print("Did not find libjuce_jni.so");
-    lib = null;
+        ? DynamicLibrary.open('libjuce_jni.so')
+        : // for android juce is a dyn. lib
+        DynamicLibrary.process(); // else juce is statically linked;
+  } catch (e) {}
+  if (lib == null) {
+    print('unable to load juce library');
+  } else {
+    print('dart loaded juce lib');
+    initNativeMessenging(lib);
   }
-  /*
-  if (lib != null) {
-    void Function() startJuceApplicationAndEventLoop = lib
-        .lookup<NativeFunction<Void Function()>>(
-            'startJuceApplicationAndEventLoop')
-        .asFunction();
-    startJuceApplicationAndEventLoop();
-  }*/
+
   return lib;
-}.call();
+}
+// for messenging, see https://github.com/mraleph/go_dart_ffi_example
+void initNativeMessenging(DynamicLibrary juce) async {
+  // initialize the native dart API
+  final initializeApi = juce.lookupFunction<IntPtr Function(Pointer<Void>),
+      int Function(Pointer<Void>)>("InitializeDartApi");
+  if (initializeApi(NativeApi.initializeApiDLData) != 0) {
+    throw "Failed to initialize Dart API";
+  }
+
+  final interactiveCppRequests = ReceivePort()
+    ..listen((data) {
+      print('Seconds of JUCE running: ${data}');
+
+    });
+
+  final int nativePort = interactiveCppRequests.sendPort.nativePort;
+
+  final void Function(int port) setDartApiMessagePort = juce
+      .lookup<NativeFunction<Void Function(Int64 port)>>(
+          "SetDartApiMessagePort")
+      .asFunction();
+  setDartApiMessagePort(nativePort);
+}
+
+final juce = loadJuceLibrary();
 
 // see https://pub.flutter-io.cn/packages/ffi/example
 String fromUtf8AndFree(Pointer<Utf8> utf8Ptr) {
@@ -72,14 +94,6 @@ typedef DartRegisterVoidCallbackT = void Function(
 // native function pointer to actual dart function, to be registered as callback
 final Pointer<NativeFunction<VoidCallbackT>> dartDecrementCallback =
     Pointer.fromFunction<VoidCallbackT>(dartDecrement);
-
-// dart function pointer to native callback registration function
-final DartRegisterVoidCallbackT juceRegisterCallbackFunction = (juce == null)
-    ? () => null
-    : juce
-        .lookup<NativeFunction<JuceRegisterVoidCallbackT>>(
-            'registerDartDecrementCallback')
-        .asFunction();
 
 /*
 // native function type

@@ -21,6 +21,28 @@
           </GROUP>
         </GROUP>
       </GROUP>
+      <GROUP id="{EC73E992-4C6A-D797-042E-75545E65DDA8}" name="DartApiDL">
+        <GROUP id="{0D2171EA-7726-2BCE-6A5C-09288BBF2549}" name="include">
+          <GROUP id="{EBB3D895-C648-D3F4-6C87-14817990E8CF}" name="bin">
+            <FILE id="GtRWSO" name="dart_io_api.h" compile="0" resource="0" file="Source/DartApiDL/include/bin/dart_io_api.h"/>
+          </GROUP>
+          <GROUP id="{79F62B28-9A3B-A5FD-64B1-FEB3257B2EBE}" name="internal">
+            <FILE id="FBGzHB" name="dart_api_dl_impl.h" compile="0" resource="0"
+                  file="Source/DartApiDL/include/internal/dart_api_dl_impl.h"/>
+          </GROUP>
+          <FILE id="KKZZhj" name="dart_api.h" compile="0" resource="0" file="Source/DartApiDL/include/dart_api.h"/>
+          <FILE id="MutW4L" name="dart_api_dl.h" compile="0" resource="0" file="Source/DartApiDL/include/dart_api_dl.h"/>
+          <FILE id="BiYLaV" name="dart_embedder_api.h" compile="0" resource="0"
+                file="Source/DartApiDL/include/dart_embedder_api.h"/>
+          <FILE id="h5X3lZ" name="dart_native_api.h" compile="0" resource="0"
+                file="Source/DartApiDL/include/dart_native_api.h"/>
+          <FILE id="qGnPUa" name="dart_tools_api.h" compile="0" resource="0"
+                file="Source/DartApiDL/include/dart_tools_api.h"/>
+          <FILE id="AEsUcn" name="dart_version.h" compile="0" resource="0" file="Source/DartApiDL/include/dart_version.h"/>
+          <FILE id="lokKOh" name="README.md" compile="0" resource="0" file="Source/DartApiDL/include/README.md"/>
+        </GROUP>
+        <FILE id="IApOZV" name="dart_api_dl.c" compile="0" resource="0" file="Source/DartApiDL/dart_api_dl.c"/>
+      </GROUP>
       <GROUP id="{74603C61-1D44-110B-4B95-C98AC12BE058}" name="Flutter">
         <FILE id="g4NwYJ" name="main.dart" compile="0" resource="0" file="fluttering/lib/main.dart"/>
       </GROUP>

@@ -17,8 +17,6 @@
 START_JUCE_APPLICATION(JucyFlutteringJuceApplication)
 #endif
 
-
-
 // === Class JucyFlutteringJuceApplication =====================================
 
 const String JucyFlutteringJuceApplication::getApplicationName()
@@ -49,12 +47,8 @@ void JucyFlutteringJuceApplication::systemRequestedQuit()
 
 void JucyFlutteringJuceApplication::timerCallback()
 {
-    DBG("timer " + String(i));
     i++;
-    if (i > 10 && dartDecrementCallback != nullptr)
-    {
-        //dartDecrementCallback();
-    }
+    sendMsgToFlutter(i);
 }
 
 // === END of Class JucyFlutteringJuceApplication ==============================

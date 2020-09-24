@@ -3,10 +3,6 @@ import 'jucy_fluttering_interop.dart';
 
 void main() {
   runApp(MyApp());
-  /*
-  if (juce != null) {
-    juceRegisterCallbackFunction(dartDecrementCallback);
-  }*/
 }
 
 class MyApp extends StatelessWidget {

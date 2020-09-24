@@ -5,6 +5,28 @@
     Created: 22 Sep 2020
     Author:  audiooffler <sp.martin@gmx.net>
 
+    It's a shame callback from juce message loop still won't work as async dart
+    calls are not implemented yet. either use sockets or :
+
+    juce pseudo-callback-send
+	int64 message_box counter
+	String name
+	String current msg
+	String timestamp current msg
+	int check timer intervall in ms 
+
+list/register of pseudo callback boxes
+
+
+dart pseudeo-callback-receive
+	int 64 message_box counter (has it changed, check at given interval?)
+	String name
+	String current msg
+	String timestamp current msg
+	int check timer intervall in ms 
+
+list/register of pseudo callback boxes, automatically registered
+
   ==============================================================================
 */
 
@@ -12,23 +34,33 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "JucyFlutteringJuceApplication.h"
+#include "DartApiDL/dart_api_dl.c"
 
 // === definitions =============================================================
 
 // for ios, dart/ffi won't be able to access 'extern "C" functions' without those attributes due to compiler optimizations
 #define EXTERN_C extern "C" __attribute__((visibility("default"))) __attribute__((used))
 
-// call this once from flutter, when initializing the flutter app! this enables to use callbacks from juce message loop to flutter (callbacks allowed only in same thread as flutter)
-EXTERN_C void startJuceApplicationAndEventLoop()
+EXTERN_C int32_t InitializeDartApi(void *data)
 {
-#if !JUCE_IOS
+  return Dart_InitializeApiDL(data);
+}
 
-#endif
-  //const MessageManagerLock mmLock;
+static int64 DartApiMessagePort = -1;
 
-  //MessageManager* mm = MessageManager::getInstanceWithoutCreating();
-  //mm->setCurrentThreadAsMessageThread();
-  DBG("called startJuceApplicationAndEventLoop");
+EXTERN_C void SetDartApiMessagePort(int64 port)
+{
+  DartApiMessagePort = port;
+}
+
+void sendMsgToFlutter(int64 msg)
+{
+  if (DartApiMessagePort == -1)
+    return;
+  Dart_CObject obj;
+  obj.type = Dart_CObject_kInt64;
+  obj.value.as_int64 = msg;
+  Dart_PostCObject_DL(DartApiMessagePort, &obj);
 }
 
 // === Helper typedefs for callback functions ==================================
@@ -60,17 +92,4 @@ EXTERN_C int calcIncrement(int in)
 EXTERN_C const char *getAppName()
 {
   return copyStringToUTF8(JucyFlutteringJuceApplication::getInstance()->getApplicationName());
-}
-
-/*
-EXTERN_C int32_t juceFoo( int32_t bar, int32_t (*callback)(void*, int32_t) )
-{
-    return callback(nullptr, bar);
-}
- */
-
-void_functionPtr dartDecrementCallback = nullptr;
-EXTERN_C void registerDartDecrementCallback(void_functionPtr dartNativeCallbackFunction)
-{
-  dartDecrementCallback = dartNativeCallbackFunction;
 }
