@@ -15,25 +15,36 @@
 
 #pragma once
 
-#include "JuceHeader.h"
+#include "../JuceLibraryCode/JuceHeader.h"
 
 // === Class JucyFlutteringJuceApplication =====================================
 
-class JucyFlutteringJuceApplication    : public JUCEApplication, public Timer
+class JucyFlutteringJuceApplication : public JUCEApplicationBase, public Timer
 {
 public:
+  JucyFlutteringJuceApplication() = default;
 
-    JucyFlutteringJuceApplication() = default;
-    const String getApplicationName() override;
-    const String getApplicationVersion() override;
-    void initialise (const juce::String&) override;
-    void shutdown() override;
-    void systemRequestedQuit() override;
-    
-    // --- Timer implementation -----------------------------------------------
+  /** Returns the global instance of the application object being run. */
+  static JucyFlutteringJuceApplication *JUCE_CALLTYPE getInstance() noexcept
+  {
+    return dynamic_cast<JucyFlutteringJuceApplication *>(JUCEApplicationBase::getInstance());
+  }
 
-    void timerCallback() override;
+  const String getApplicationName() override;
+  const String getApplicationVersion() override;
+  bool moreThanOneInstanceAllowed() override { return false; }
+  void initialise(const juce::String &) override;
+  void shutdown() override;
+  void anotherInstanceStarted(const String &commandLine) override {}
+  void systemRequestedQuit() override;
+  void suspended() override {}
+  void resumed() override {}
+  void unhandledException(const std::exception *, const String &sourceFilename, int lineNumber) override { jassertfalse; }
+
+  // --- Timer implementation -----------------------------------------------
+
+  void timerCallback() override;
 
 private:
-    int i=0;
+  int i = 0;
 };

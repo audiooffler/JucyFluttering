@@ -42,10 +42,7 @@
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <EXPORTFORMATS>
     <ANDROIDSTUDIO targetFolder="Builds/Android" androidCustomAppBuildGradleContent="    defaultConfig {&#10;      ndk {&#10;        // filter for architectures supported by Flutter&#10;        abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'&#10;      }&#10;    }&#10;&#10;    compileOptions {&#10;      // Flutter Android engine uses Java 8 features&#10;      sourceCompatibility 1.8&#10;      targetCompatibility 1.8&#10;    }"
@@ -62,9 +59,6 @@
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path=""/>
         <MODULEPATH id="juce_events" path=""/>
-        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
       </MODULEPATHS>
     </ANDROIDSTUDIO>
     <XCODE_IPHONE targetFolder="Builds/iOS" userNotes="https://flutter.dev/docs/development/add-to-app/ios/&#10;&#10;set projucer PList custom content for IOSAppDelegate&#10;&#10;set projucer binary build dir for ios targets to: &quot;$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)&quot;, see https://forum.juce.com/t/solved-cocoapods-and-introjucer-generated-projects-linker-error-react-native/16426&#10;&#10;after exporting projucer, with installed cocoapods (&quot;sudo gem install cocoapod&quot;):&#10;&quot;cd Builds/iOS&quot;&#10;&quot;pod install&quot;&#10;open and build the .xcworkspace file in XCode (NOT the .xcodeproj - this will fail to build)&#10;&#10;for flutter debugging/hot-loading etc&#10;- run/debug the app&#10;- use the terminal, cd to /fluttering directory (&quot;cd ../../fluttering&quot; from Builds/Android)&#10;- &quot;flutter attach&quot;&#10;"
@@ -79,9 +73,6 @@
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path=""/>
         <MODULEPATH id="juce_events" path=""/>
-        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_IPHONE>
   </EXPORTFORMATS>

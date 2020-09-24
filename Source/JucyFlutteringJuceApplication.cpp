@@ -14,7 +14,7 @@
 
 // for iOS, see IOSAppDelegate, else start juce app
 #if !JUCE_IOS
-START_JUCE_APPLICATION (JucyFlutteringJuceApplication)
+START_JUCE_APPLICATION(JucyFlutteringJuceApplication)
 #endif
 
 
@@ -31,9 +31,13 @@ const String JucyFlutteringJuceApplication::getApplicationVersion()
     return "0.0.1";
 }
 
-void JucyFlutteringJuceApplication::initialise (const juce::String&)
+void JucyFlutteringJuceApplication::initialise(const juce::String &)
 {
     startTimer(1000);
+}
+
+void JucyFlutteringJuceApplication::shutdown()
+{
 }
 
 void JucyFlutteringJuceApplication::systemRequestedQuit()
@@ -41,17 +45,16 @@ void JucyFlutteringJuceApplication::systemRequestedQuit()
     quit();
 }
 
-void JucyFlutteringJuceApplication::shutdown()
-{
-    
-}
-
 // ---- Timer implementation ---------------------------------------------------
 
 void JucyFlutteringJuceApplication::timerCallback()
 {
-    DBG("timer "+String(i));
+    DBG("timer " + String(i));
     i++;
+    if (i > 10 && dartDecrementCallback != nullptr)
+    {
+        //dartDecrementCallback();
+    }
 }
 
 // === END of Class JucyFlutteringJuceApplication ==============================

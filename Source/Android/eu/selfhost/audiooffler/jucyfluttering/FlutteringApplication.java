@@ -14,6 +14,9 @@ public class FlutteringApplication extends Application
     public void onCreate()
     {
         super.onCreate();
+
+        Java.initialiseJUCE (this);
+
         // Instantiate a FlutterEngine.
         flutterEngine = new FlutterEngine(this);
         // Configure an initial route.
@@ -22,7 +25,5 @@ public class FlutteringApplication extends Application
         flutterEngine.getDartExecutor().executeDartEntrypoint(DartEntrypoint.createDefault());
         // Cache the FlutterEngine to be used by FlutterActivity.
         FlutterEngineCache.getInstance().put("fluttering_engine_id", flutterEngine);
-
-        Java.initialiseJUCE (this);
     }
 }

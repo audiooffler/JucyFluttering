@@ -3,6 +3,10 @@ import 'jucy_fluttering_interop.dart';
 
 void main() {
   runApp(MyApp());
+  /*
+  if (juce != null) {
+    juceRegisterCallbackFunction(dartDecrementCallback);
+  }*/
 }
 
 class MyApp extends StatelessWidget {
@@ -46,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  static int _counter = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -55,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter = juceIncrement(_counter);
+      _counter = juceCalcIncrement(_counter);
     });
   }
 
