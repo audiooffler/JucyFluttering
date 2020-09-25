@@ -3,8 +3,7 @@ import 'dart:io' show Platform; // For Platform.isAndroid
 import 'package:ffi/ffi.dart';
 import 'dart:isolate';
 
-import 'package:fluttering/main.dart';
-
+// loading juce library and also initialising native messanging
 DynamicLibrary loadJuceLibrary() {
   DynamicLibrary lib;
   try {
@@ -22,7 +21,8 @@ DynamicLibrary loadJuceLibrary() {
 
   return lib;
 }
-// for messenging, see https://github.com/mraleph/go_dart_ffi_example
+
+// messenging, see https://github.com/mraleph/go_dart_ffi_example
 void initNativeMessenging(DynamicLibrary juce) async {
   // initialize the native dart API
   final initializeApi = juce.lookupFunction<IntPtr Function(Pointer<Void>),
@@ -34,7 +34,6 @@ void initNativeMessenging(DynamicLibrary juce) async {
   final interactiveCppRequests = ReceivePort()
     ..listen((data) {
       print('Seconds of JUCE running: ${data}');
-
     });
 
   final int nativePort = interactiveCppRequests.sendPort.nativePort;
@@ -48,12 +47,16 @@ void initNativeMessenging(DynamicLibrary juce) async {
 
 final juce = loadJuceLibrary();
 
+// === String result conversion helper function ================================
+
 // see https://pub.flutter-io.cn/packages/ffi/example
 String fromUtf8AndFree(Pointer<Utf8> utf8Ptr) {
   String resultString = Utf8.fromUtf8(utf8Ptr);
   free(utf8Ptr);
   return resultString;
 }
+
+// === simple c++ function calls ==============================================
 
 // Get C function reference, put it into a variable.
 final int Function(int numberIn) juceCalcIncrement = (juce == null)
@@ -75,6 +78,8 @@ String getAppName() {
 }
 
 // === callback example ========================================================
+// some callback - but this will only work if the c++ work was also run
+// from dart, not if the JUCE message loop thread wants to call back!
 
 // an actual dart function, to executed from juce via callback
 void dartDecrement() {
@@ -94,33 +99,3 @@ typedef DartRegisterVoidCallbackT = void Function(
 // native function pointer to actual dart function, to be registered as callback
 final Pointer<NativeFunction<VoidCallbackT>> dartDecrementCallback =
     Pointer.fromFunction<VoidCallbackT>(dartDecrement);
-
-/*
-// native function type
-typedef example_foo = Int32 Function(Int32 bar, Pointer<NativeFunction<example_callback>>);
-// dart callback function type
-typedef ExampleFoo  = int   Function(int bar,   Pointer<NativeFunction<example_callback>>);
-
-typedef example_callback = Int32 Function(Pointer<Void>, Int32);
-
-//and the code for the callback
-int callback(Pointer<Void> ptr, int i) {
-  print('in callback i=$i');
-  return i + 1;
-}
-
-// lookup juce function
-ExampleFoo juceFooFunction =
-    juce.lookup<NativeFunction<example_foo>>('juceFoo').asFunction();
-
-const exceptionalReturn = -1;
-
-//and, finally, use it like this:
-int foo(int i) {
-  return juceFooFunction(
-    i,
-    Pointer.fromFunction<example_callback>(
-        callback, exceptionalReturn),
-  );
-}
-*/

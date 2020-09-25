@@ -4,15 +4,13 @@
  * BSD-style license that can be found in the LICENSE file.
  */
 
-#include "include/dart_api_dl.h"
-#include "include/dart_version.h"
-#include "include/internal/dart_api_dl_impl.h"
+#include "dart_api_dl.h"
+#include "dart_version.h"
+#include "internal/dart_api_dl_impl.h"
 
 #include <string.h>
 
-#define DART_API_DL_DEFINITIONS(name, R, A) \
-  typedef R(*name##_Type) A;                \
-  name##_Type name##_DL = NULL;
+#define DART_API_DL_DEFINITIONS(name, R, A) name##_Type name##_DL = NULL;
 
 DART_API_ALL_DL_SYMBOLS(DART_API_DL_DEFINITIONS)
 
@@ -20,24 +18,19 @@ DART_API_ALL_DL_SYMBOLS(DART_API_DL_DEFINITIONS)
 
 typedef void (*DartApiEntry_function)();
 
-DartApiEntry_function FindFunctionPointer(const DartApiEntry *entries,
-                                          const char *name)
-{
-  while (entries->name != NULL)
-  {
-    if (strcmp(entries->name, name) == 0)
-      return entries->function;
+DartApiEntry_function FindFunctionPointer(const DartApiEntry* entries,
+                                          const char* name) {
+  while (entries->name != NULL) {
+    if (strcmp(entries->name, name) == 0) return entries->function;
     entries++;
   }
   return NULL;
 }
 
-intptr_t Dart_InitializeApiDL(void *data)
-{
-  DartApi *dart_api_data = (DartApi *)data;
+intptr_t Dart_InitializeApiDL(void* data) {
+  DartApi* dart_api_data = (DartApi*)data;
 
-  if (dart_api_data->major != DART_API_DL_MAJOR_VERSION)
-  {
+  if (dart_api_data->major != DART_API_DL_MAJOR_VERSION) {
     // If the DartVM we're running on does not have the same version as this
     // file was compiled against, refuse to initialize. The symbols are not
     // compatible.
@@ -54,10 +47,10 @@ intptr_t Dart_InitializeApiDL(void *data)
   // (If we would error out on this case, recompiling native code against a
   // newer SDK would break all uses on older SDKs, which is too strict.)
 
-  const DartApiEntry *dart_api_function_pointers = dart_api_data->functions;
+  const DartApiEntry* dart_api_function_pointers = dart_api_data->functions;
 
-#define DART_API_DL_INIT(name, R, A) \
-  name##_DL =                        \
+#define DART_API_DL_INIT(name, R, A)                                           \
+  name##_DL =                                                                  \
       (name##_Type)(FindFunctionPointer(dart_api_function_pointers, #name));
   DART_API_ALL_DL_SYMBOLS(DART_API_DL_INIT)
 #undef DART_API_DL_INIT

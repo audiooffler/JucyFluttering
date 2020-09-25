@@ -5,28 +5,6 @@
     Created: 22 Sep 2020
     Author:  audiooffler <sp.martin@gmx.net>
 
-    It's a shame callback from juce message loop still won't work as async dart
-    calls are not implemented yet. either use sockets or :
-
-    juce pseudo-callback-send
-	int64 message_box counter
-	String name
-	String current msg
-	String timestamp current msg
-	int check timer intervall in ms 
-
-list/register of pseudo callback boxes
-
-
-dart pseudeo-callback-receive
-	int 64 message_box counter (has it changed, check at given interval?)
-	String name
-	String current msg
-	String timestamp current msg
-	int check timer intervall in ms 
-
-list/register of pseudo callback boxes, automatically registered
-
   ==============================================================================
 */
 
@@ -34,14 +12,20 @@ list/register of pseudo callback boxes, automatically registered
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "JucyFlutteringJuceApplication.h"
-#include "DartApiDL/dart_api_dl.c"
+#include "DartApiDL/include/dart_api_dl.c"
 
 // === definitions =============================================================
 
 // for ios, dart/ffi won't be able to access 'extern "C" functions' without those attributes due to compiler optimizations
+#if defined(_WIN32)
+#define EXTERN_C extern "C" __declspec(dllexport)
+#else
 #define EXTERN_C extern "C" __attribute__((visibility("default"))) __attribute__((used))
+#endif
 
-EXTERN_C int32_t InitializeDartApi(void *data)
+// === native dart api communication for sending messages to Flutter
+
+EXTERN_C int64_t InitializeDartApi(void *data)
 {
   return Dart_InitializeApiDL(data);
 }
@@ -53,6 +37,7 @@ EXTERN_C void SetDartApiMessagePort(int64 port)
   DartApiMessagePort = port;
 }
 
+// this will send long integer to dart receiver port as a message
 void sendMsgToFlutter(int64 msg)
 {
   if (DartApiMessagePort == -1)

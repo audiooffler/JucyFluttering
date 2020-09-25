@@ -34,8 +34,7 @@
  * Dart_WeakPersistentHandleFinalizer callback; a non-NULL callback must be
  * provided.
  */
-typedef enum
-{
+typedef enum {
   Dart_CObject_kNull = 0,
   Dart_CObject_kBool,
   Dart_CObject_kInt32,
@@ -51,42 +50,35 @@ typedef enum
   Dart_CObject_kNumberOfTypes
 } Dart_CObject_Type;
 
-typedef struct _Dart_CObject
-{
+typedef struct _Dart_CObject {
   Dart_CObject_Type type;
-  union
-  {
+  union {
     bool as_bool;
     int32_t as_int32;
     int64_t as_int64;
     double as_double;
-    char *as_string;
-    struct
-    {
+    char* as_string;
+    struct {
       Dart_Port id;
       Dart_Port origin_id;
     } as_send_port;
-    struct
-    {
+    struct {
       int64_t id;
     } as_capability;
-    struct
-    {
+    struct {
       intptr_t length;
-      struct _Dart_CObject **values;
+      struct _Dart_CObject** values;
     } as_array;
-    struct
-    {
+    struct {
       Dart_TypedData_Type type;
       intptr_t length;
-      uint8_t *values;
+      uint8_t* values;
     } as_typed_data;
-    struct
-    {
+    struct {
       Dart_TypedData_Type type;
       intptr_t length;
-      uint8_t *data;
-      void *peer;
+      uint8_t* data;
+      void* peer;
       Dart_WeakPersistentHandleFinalizer callback;
     } as_external_typed_data;
   } value;
@@ -117,7 +109,7 @@ typedef struct _Dart_CObject
  *
  * \return True if the message was posted.
  */
-DART_EXPORT bool Dart_PostCObject(Dart_Port port_id, Dart_CObject *message);
+DART_EXPORT bool Dart_PostCObject(Dart_Port port_id, Dart_CObject* message);
 
 /**
  * Posts a message on some port. The message will contain the integer 'message'.
@@ -141,7 +133,7 @@ DART_EXPORT bool Dart_PostInteger(Dart_Port port_id, int64_t message);
  * will be reclaimed when returning to it.
  */
 typedef void (*Dart_NativeMessageHandler)(Dart_Port dest_port_id,
-                                          Dart_CObject *message);
+                                          Dart_CObject* message);
 
 /**
  * Creates a new native port.  When messages are received on this
@@ -156,7 +148,7 @@ typedef void (*Dart_NativeMessageHandler)(Dart_Port dest_port_id,
  * \return If successful, returns the port id for the native port.  In
  *   case of error, returns ILLEGAL_PORT.
  */
-DART_EXPORT Dart_Port Dart_NewNativePort(const char *name,
+DART_EXPORT Dart_Port Dart_NewNativePort(const char* name,
                                          Dart_NativeMessageHandler handler,
                                          bool handle_concurrently);
 /* TODO(turnidge): Currently handle_concurrently is ignored. */
@@ -197,6 +189,6 @@ DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle Dart_FinalizeAllClasses();
  *
  *  It should not be used outside internal tests.
  */
-DART_EXPORT void *Dart_ExecuteInternalCommand(const char *command, void *arg);
+DART_EXPORT void* Dart_ExecuteInternalCommand(const char* command, void* arg);
 
 #endif /* INCLUDE_DART_NATIVE_API_H_ */ /* NOLINT */

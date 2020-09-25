@@ -28,7 +28,7 @@
 #ifdef __cplusplus
 #define DART_EXTERN_C extern "C"
 #else
-#define DART_EXTERN_C extern
+#define DART_EXTERN_C
 #endif
 
 #if defined(__CYGWIN__)
@@ -42,7 +42,7 @@
 #else
 #if __GNUC__ >= 4
 #if defined(DART_SHARED_LIB)
-#define DART_EXPORT \
+#define DART_EXPORT                                                            \
   DART_EXTERN_C __attribute__((visibility("default"))) __attribute((used))
 #else
 #define DART_EXPORT DART_EXTERN_C
@@ -78,8 +78,8 @@
  * isolate in order to function without error. The current isolate is
  * set by any call to Dart_CreateIsolateGroup or Dart_EnterIsolate.
  */
-typedef struct _Dart_Isolate *Dart_Isolate;
-typedef struct _Dart_IsolateGroup *Dart_IsolateGroup;
+typedef struct _Dart_Isolate* Dart_Isolate;
+typedef struct _Dart_IsolateGroup* Dart_IsolateGroup;
 
 /**
  * An object reference managed by the Dart VM garbage collector.
@@ -247,18 +247,18 @@ typedef struct _Dart_IsolateGroup *Dart_IsolateGroup;
  * WeakPersistentHandles are persistent handles which are auto deleted
  * when the object is garbage collected.
  */
-typedef struct _Dart_Handle *Dart_Handle;
+typedef struct _Dart_Handle* Dart_Handle;
 typedef Dart_Handle Dart_PersistentHandle;
-typedef struct _Dart_WeakPersistentHandle *Dart_WeakPersistentHandle;
-typedef struct _Dart_FinalizableHandle *Dart_FinalizableHandle;
+typedef struct _Dart_WeakPersistentHandle* Dart_WeakPersistentHandle;
+typedef struct _Dart_FinalizableHandle* Dart_FinalizableHandle;
 // These structs are versioned by DART_API_DL_MAJOR_VERSION, bump the
 // version when changing this struct.
 
 typedef void (*Dart_WeakPersistentHandleFinalizer)(
-    void *isolate_callback_data,
+    void* isolate_callback_data,
     Dart_WeakPersistentHandle handle,
-    void *peer);
-typedef void (*Dart_HandleFinalizer)(void *isolate_callback_data, void *peer);
+    void* peer);
+typedef void (*Dart_HandleFinalizer)(void* isolate_callback_data, void* peer);
 
 /**
  * Is this an error handle?
@@ -323,7 +323,7 @@ DART_EXPORT bool Dart_IsFatalError(Dart_Handle handle);
  *   String is scope allocated and is only valid until the next call
  *   to Dart_ExitScope.
 */
-DART_EXPORT const char *Dart_GetError(Dart_Handle handle);
+DART_EXPORT const char* Dart_GetError(Dart_Handle handle);
 
 /**
  * Is this an error handle for an unhandled exception?
@@ -347,8 +347,8 @@ DART_EXPORT Dart_Handle Dart_ErrorGetStackTrace(Dart_Handle handle);
  *
  * \param error the error message.
  */
-DART_EXPORT Dart_Handle Dart_NewApiError(const char *error);
-DART_EXPORT Dart_Handle Dart_NewCompilationError(const char *error);
+DART_EXPORT Dart_Handle Dart_NewApiError(const char* error);
+DART_EXPORT Dart_Handle Dart_NewCompilationError(const char* error);
 
 /**
  * Produces a new unhandled exception error handle.
@@ -496,7 +496,7 @@ DART_EXPORT void Dart_DeletePersistentHandle(Dart_PersistentHandle object);
  */
 DART_EXPORT Dart_WeakPersistentHandle
 Dart_NewWeakPersistentHandle(Dart_Handle object,
-                             void *peer,
+                             void* peer,
                              intptr_t external_allocation_size,
                              Dart_WeakPersistentHandleFinalizer callback);
 
@@ -552,7 +552,7 @@ DART_EXPORT void Dart_UpdateExternalSize(Dart_WeakPersistentHandle object,
  */
 DART_EXPORT Dart_FinalizableHandle
 Dart_NewFinalizableHandle(Dart_Handle object,
-                          void *peer,
+                          void* peer,
                           intptr_t external_allocation_size,
                           Dart_HandleFinalizer callback);
 
@@ -593,13 +593,12 @@ DART_EXPORT void Dart_UpdateFinalizableExternalSize(
  *
  * \return The version string for the embedded Dart VM.
  */
-DART_EXPORT const char *Dart_VersionString();
+DART_EXPORT const char* Dart_VersionString();
 
-typedef struct
-{
-  const char *library_uri;
-  const char *class_name;
-  const char *function_name;
+typedef struct {
+  const char* library_uri;
+  const char* class_name;
+  const char* function_name;
 } Dart_QualifiedFunctionName;
 
 /**
@@ -612,23 +611,23 @@ typedef struct
 
 #define DART_FLAGS_CURRENT_VERSION (0x0000000c)
 
-typedef struct
-{
+typedef struct {
   int32_t version;
   bool enable_asserts;
   bool use_field_guards;
   bool use_osr;
   bool obfuscate;
-  Dart_QualifiedFunctionName *entry_points;
+  Dart_QualifiedFunctionName* entry_points;
   bool load_vmservice_library;
   bool copy_parent_code;
   bool null_safety;
+  bool is_system_isolate;
 } Dart_IsolateFlags;
 
 /**
  * Initialize Dart_IsolateFlags with correct version and default values.
  */
-DART_EXPORT void Dart_IsolateFlagsInitialize(Dart_IsolateFlags *flags);
+DART_EXPORT void Dart_IsolateFlagsInitialize(Dart_IsolateFlags* flags);
 
 /**
  * An isolate creation and initialization callback function.
@@ -680,13 +679,13 @@ DART_EXPORT void Dart_IsolateFlagsInitialize(Dart_IsolateFlags *flags);
  *   initialization was not successful and the isolate if successful.
  */
 typedef Dart_Isolate (*Dart_IsolateGroupCreateCallback)(
-    const char *script_uri,
-    const char *main,
-    const char *package_root,
-    const char *package_config,
-    Dart_IsolateFlags *flags,
-    void *isolate_data,
-    char **error);
+    const char* script_uri,
+    const char* main,
+    const char* package_root,
+    const char* package_config,
+    Dart_IsolateFlags* flags,
+    void* isolate_data,
+    char** error);
 
 /**
  * An isolate initialization callback function.
@@ -718,8 +717,8 @@ typedef Dart_Isolate (*Dart_IsolateGroupCreateCallback)(
  * \return The embedder returns true if the initialization was successful and
  *         false otherwise (in which case the VM will terminate the isolate).
  */
-typedef bool (*Dart_InitializeIsolateCallback)(void **child_isolate_data,
-                                               char **error);
+typedef bool (*Dart_InitializeIsolateCallback)(void** child_isolate_data,
+                                               char** error);
 
 /**
  * An isolate unhandled exception callback function.
@@ -743,8 +742,8 @@ typedef void (*Dart_IsolateUnhandledExceptionCallback)(Dart_Handle error);
  * \param isolate_data The same callback data which was passed to the isolate
  *   when it was created.
  */
-typedef void (*Dart_IsolateShutdownCallback)(void *isolate_group_data,
-                                             void *isolate_data);
+typedef void (*Dart_IsolateShutdownCallback)(void* isolate_group_data,
+                                             void* isolate_data);
 
 /**
  * An isolate cleanup callback function.
@@ -761,8 +760,8 @@ typedef void (*Dart_IsolateShutdownCallback)(void *isolate_group_data,
  * \param isolate_data The same callback data which was passed to the isolate
  *   when it was created.
  */
-typedef void (*Dart_IsolateCleanupCallback)(void *isolate_group_data,
-                                            void *isolate_data);
+typedef void (*Dart_IsolateCleanupCallback)(void* isolate_group_data,
+                                            void* isolate_data);
 
 /**
  * An isolate group cleanup callback function.
@@ -777,7 +776,7 @@ typedef void (*Dart_IsolateCleanupCallback)(void *isolate_group_data,
  *   isolate group when it was created.
  *
  */
-typedef void (*Dart_IsolateGroupCleanupCallback)(void *isolate_group_data);
+typedef void (*Dart_IsolateGroupCleanupCallback)(void* isolate_group_data);
 
 /**
  * A thread death callback function.
@@ -815,19 +814,19 @@ typedef void (*Dart_ThreadExitCallback)();
  * \param stream Handle to the opened file.
  *
  */
-typedef void *(*Dart_FileOpenCallback)(const char *name, bool write);
+typedef void* (*Dart_FileOpenCallback)(const char* name, bool write);
 
-typedef void (*Dart_FileReadCallback)(uint8_t **data,
-                                      intptr_t *file_length,
-                                      void *stream);
+typedef void (*Dart_FileReadCallback)(uint8_t** data,
+                                      intptr_t* file_length,
+                                      void* stream);
 
-typedef void (*Dart_FileWriteCallback)(const void *data,
+typedef void (*Dart_FileWriteCallback)(const void* data,
                                        intptr_t length,
-                                       void *stream);
+                                       void* stream);
 
-typedef void (*Dart_FileCloseCallback)(void *stream);
+typedef void (*Dart_FileCloseCallback)(void* stream);
 
-typedef bool (*Dart_EntropySource)(uint8_t *buffer, intptr_t length);
+typedef bool (*Dart_EntropySource)(uint8_t* buffer, intptr_t length);
 
 /**
  * Callback provided by the embedder that is used by the vmservice isolate
@@ -860,14 +859,13 @@ struct Dart_CodeObserver;
  * these compilation events and when collecting PCs to disambiguate reused
  * address ranges.
  */
-typedef void (*Dart_OnNewCodeCallback)(struct Dart_CodeObserver *observer,
-                                       const char *name,
+typedef void (*Dart_OnNewCodeCallback)(struct Dart_CodeObserver* observer,
+                                       const char* name,
                                        uintptr_t base,
                                        uintptr_t size);
 
-typedef struct Dart_CodeObserver
-{
-  void *data;
+typedef struct Dart_CodeObserver {
+  void* data;
 
   Dart_OnNewCodeCallback on_new_code;
 } Dart_CodeObserver;
@@ -900,11 +898,10 @@ typedef struct Dart_CodeObserver
  * \param code_observer An external code observer callback function.
  *    The observer can be invoked as early as during the Dart_Initialize() call.
  */
-typedef struct
-{
+typedef struct {
   int32_t version;
-  const uint8_t *vm_snapshot_data;
-  const uint8_t *vm_snapshot_instructions;
+  const uint8_t* vm_snapshot_data;
+  const uint8_t* vm_snapshot_instructions;
   Dart_IsolateGroupCreateCallback create_group;
   Dart_InitializeIsolateCallback initialize_isolate;
   Dart_IsolateShutdownCallback shutdown_isolate;
@@ -918,7 +915,7 @@ typedef struct
   Dart_EntropySource entropy_source;
   Dart_GetVMServiceAssetsArchive get_service_assets;
   bool start_kernel_isolate;
-  Dart_CodeObserver *code_observer;
+  Dart_CodeObserver* code_observer;
 } Dart_InitializeParams;
 
 /**
@@ -930,8 +927,8 @@ typedef struct
  * \return NULL if initialization is successful. Returns an error message
  *   otherwise. The caller is responsible for freeing the error message.
  */
-DART_EXPORT DART_WARN_UNUSED_RESULT char *Dart_Initialize(
-    Dart_InitializeParams *params);
+DART_EXPORT DART_WARN_UNUSED_RESULT char* Dart_Initialize(
+    Dart_InitializeParams* params);
 
 /**
  * Cleanup state in the VM before process termination.
@@ -942,7 +939,7 @@ DART_EXPORT DART_WARN_UNUSED_RESULT char *Dart_Initialize(
  * NOTE: This function must not be called on a thread that was created by the VM
  * itself.
  */
-DART_EXPORT DART_WARN_UNUSED_RESULT char *Dart_Cleanup();
+DART_EXPORT DART_WARN_UNUSED_RESULT char* Dart_Cleanup();
 
 /**
  * Sets command line flags. Should be called before Dart_Initialize.
@@ -955,8 +952,8 @@ DART_EXPORT DART_WARN_UNUSED_RESULT char *Dart_Cleanup();
  *
  * NOTE: This call does not store references to the passed in c-strings.
  */
-DART_EXPORT DART_WARN_UNUSED_RESULT char *Dart_SetVMFlags(int argc,
-                                                          const char **argv);
+DART_EXPORT DART_WARN_UNUSED_RESULT char* Dart_SetVMFlags(int argc,
+                                                          const char** argv);
 
 /**
  * Returns true if the named VM flag is of boolean type, specified, and set to
@@ -965,7 +962,7 @@ DART_EXPORT DART_WARN_UNUSED_RESULT char *Dart_SetVMFlags(int argc,
  * \param flag_name The name of the flag without leading punctuation
  *                  (example: "enable_asserts").
  */
-DART_EXPORT bool Dart_IsVMFlagSet(const char *flag_name);
+DART_EXPORT bool Dart_IsVMFlagSet(const char* flag_name);
 
 /*
  * ========
@@ -1009,14 +1006,14 @@ DART_EXPORT bool Dart_IsVMFlagSet(const char *flag_name);
  * \return The new isolate on success, or NULL if isolate creation failed.
  */
 DART_EXPORT Dart_Isolate
-Dart_CreateIsolateGroup(const char *script_uri,
-                        const char *name,
-                        const uint8_t *isolate_snapshot_data,
-                        const uint8_t *isolate_snapshot_instructions,
-                        Dart_IsolateFlags *flags,
-                        void *isolate_group_data,
-                        void *isolate_data,
-                        char **error);
+Dart_CreateIsolateGroup(const char* script_uri,
+                        const char* name,
+                        const uint8_t* isolate_snapshot_data,
+                        const uint8_t* isolate_snapshot_instructions,
+                        Dart_IsolateFlags* flags,
+                        void* isolate_group_data,
+                        void* isolate_data,
+                        char** error);
 /* TODO(turnidge): Document behavior when there is already a current
  * isolate. */
 
@@ -1050,14 +1047,14 @@ Dart_CreateIsolateGroup(const char *script_uri,
  * \return The new isolate on success, or NULL if isolate creation failed.
  */
 DART_EXPORT Dart_Isolate
-Dart_CreateIsolateGroupFromKernel(const char *script_uri,
-                                  const char *name,
-                                  const uint8_t *kernel_buffer,
+Dart_CreateIsolateGroupFromKernel(const char* script_uri,
+                                  const char* name,
+                                  const uint8_t* kernel_buffer,
                                   intptr_t kernel_buffer_size,
-                                  Dart_IsolateFlags *flags,
-                                  void *isolate_group_data,
-                                  void *isolate_data,
-                                  char **error);
+                                  Dart_IsolateFlags* flags,
+                                  void* isolate_group_data,
+                                  void* isolate_data,
+                                  char** error);
 /**
  * Shuts down the current isolate. After this call, the current isolate is NULL.
  * Any current scopes created by Dart_EnterScope will be exited. Invokes the
@@ -1078,13 +1075,13 @@ DART_EXPORT Dart_Isolate Dart_CurrentIsolate();
  * Returns the callback data associated with the current isolate. This
  * data was set when the isolate got created or initialized.
  */
-DART_EXPORT void *Dart_CurrentIsolateData();
+DART_EXPORT void* Dart_CurrentIsolateData();
 
 /**
  * Returns the callback data associated with the given isolate. This
  * data was set when the isolate got created or initialized.
  */
-DART_EXPORT void *Dart_IsolateData(Dart_Isolate isolate);
+DART_EXPORT void* Dart_IsolateData(Dart_Isolate isolate);
 
 /**
  * Returns the current isolate group. Will return NULL if there is no
@@ -1096,7 +1093,7 @@ DART_EXPORT Dart_IsolateGroup Dart_CurrentIsolateGroup();
  * Returns the callback data associated with the current isolate group. This
  * data was passed to the isolate group when it was created.
  */
-DART_EXPORT void *Dart_CurrentIsolateGroupData();
+DART_EXPORT void* Dart_CurrentIsolateGroupData();
 
 /**
  * Returns the callback data associated with the specified isolate group. This
@@ -1104,7 +1101,7 @@ DART_EXPORT void *Dart_CurrentIsolateGroupData();
  * The embedder is responsible for ensuring the consistency of this data
  * with respect to the lifecycle of an isolate group.
  */
-DART_EXPORT void *Dart_IsolateGroupData(Dart_Isolate isolate);
+DART_EXPORT void* Dart_IsolateGroupData(Dart_Isolate isolate);
 
 /**
  * Returns the debugging name for the current isolate.
@@ -1119,7 +1116,7 @@ DART_EXPORT Dart_Handle Dart_DebugName();
  *
  * It is the responsibility of the caller to free the returned ID.
  */
-DART_EXPORT const char *Dart_IsolateServiceId(Dart_Isolate isolate);
+DART_EXPORT const char* Dart_IsolateServiceId(Dart_Isolate isolate);
 
 /**
  * Enters an isolate. After calling this function,
@@ -1143,6 +1140,18 @@ DART_EXPORT void Dart_EnterIsolate(Dart_Isolate isolate);
  * there is one.
  */
 DART_EXPORT void Dart_KillIsolate(Dart_Isolate isolate);
+
+/**
+ * Notifies the VM that the embedder expects |size| bytes of memory have become
+ * unreachable. The VM may use this hint to adjust the garbage collector's
+ * growth policy.
+ *
+ * Multiple calls are interpreted as increasing, not replacing, the estimate of
+ * unreachable memory.
+ *
+ * Requires there to be a current isolate.
+ */
+DART_EXPORT void Dart_HintFreed(intptr_t size);
 
 /**
  * Notifies the VM that the embedder expects to be idle until |deadline|. The VM
@@ -1204,8 +1213,8 @@ DART_EXPORT void Dart_ThreadEnableProfiling();
  * This consumes the output of //topaz/runtime/dart/profiler_symbols, which
  * should be treated as opaque.
  */
-DART_EXPORT void Dart_AddSymbols(const char *dso_name,
-                                 void *buffer,
+DART_EXPORT void Dart_AddSymbols(const char* dso_name,
+                                 void* buffer,
                                  intptr_t buffer_size);
 
 /**
@@ -1237,10 +1246,10 @@ DART_EXPORT void Dart_ExitIsolate();
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_CreateSnapshot(uint8_t **vm_snapshot_data_buffer,
-                    intptr_t *vm_snapshot_data_size,
-                    uint8_t **isolate_snapshot_data_buffer,
-                    intptr_t *isolate_snapshot_data_size);
+Dart_CreateSnapshot(uint8_t** vm_snapshot_data_buffer,
+                    intptr_t* vm_snapshot_data_size,
+                    uint8_t** isolate_snapshot_data_buffer,
+                    intptr_t* isolate_snapshot_data_size);
 
 /**
  * Returns whether the buffer contains a kernel file.
@@ -1250,7 +1259,7 @@ Dart_CreateSnapshot(uint8_t **vm_snapshot_data_buffer,
  *
  * \return Whether the buffer contains a kernel binary (full or partial).
  */
-DART_EXPORT bool Dart_IsKernel(const uint8_t *buffer, intptr_t buffer_size);
+DART_EXPORT bool Dart_IsKernel(const uint8_t* buffer, intptr_t buffer_size);
 
 /**
  * Make isolate runnable.
@@ -1265,7 +1274,7 @@ DART_EXPORT bool Dart_IsKernel(const uint8_t *buffer, intptr_t buffer_size);
  * \return NULL if successful. Returns an error message otherwise. The caller
  * is responsible for freeing the error message.
  */
-DART_EXPORT DART_WARN_UNUSED_RESULT char *Dart_IsolateMakeRunnable(
+DART_EXPORT DART_WARN_UNUSED_RESULT char* Dart_IsolateMakeRunnable(
     Dart_Isolate isolate);
 
 /*
@@ -1523,7 +1532,7 @@ DART_EXPORT Dart_Handle Dart_NewSendPort(Dart_Port port_id);
  *   an error handle.
  */
 DART_EXPORT Dart_Handle Dart_SendPortGetId(Dart_Handle port,
-                                           Dart_Port *port_id);
+                                           Dart_Port* port_id);
 
 /*
  * ======
@@ -1573,7 +1582,7 @@ DART_EXPORT void Dart_ExitScope();
  * \return A pointer to the allocated memory. NULL if allocation
  *   failed. Failure might due to is no current VM zone.
  */
-DART_EXPORT uint8_t *Dart_ScopeAllocate(intptr_t size);
+DART_EXPORT uint8_t* Dart_ScopeAllocate(intptr_t size);
 
 /*
  * =======
@@ -1627,7 +1636,7 @@ DART_EXPORT Dart_Handle Dart_TypeNever();
  */
 DART_EXPORT Dart_Handle Dart_ObjectEquals(Dart_Handle obj1,
                                           Dart_Handle obj2,
-                                          bool *equal);
+                                          bool* equal);
 
 /**
  * Is this object an instance of some type?
@@ -1643,7 +1652,7 @@ DART_EXPORT Dart_Handle Dart_ObjectEquals(Dart_Handle obj1,
  */
 DART_EXPORT Dart_Handle Dart_ObjectIsType(Dart_Handle object,
                                           Dart_Handle type,
-                                          bool * instanceof);
+                                          bool* instanceof);
 
 /**
  * Query object type.
@@ -1739,7 +1748,7 @@ DART_EXPORT Dart_Handle Dart_FunctionOwner(Dart_Handle function);
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_FunctionIsStatic(Dart_Handle function,
-                                              bool *is_static);
+                                              bool* is_static);
 
 /**
  * Is this object a closure resulting from a tear-off (closurized method)?
@@ -1786,7 +1795,7 @@ DART_EXPORT Dart_Handle Dart_ClassLibrary(Dart_Handle cls_type);
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_IntegerFitsIntoInt64(Dart_Handle integer,
-                                                  bool *fits);
+                                                  bool* fits);
 
 /**
  * Does this Integer fit into a 64-bit unsigned integer?
@@ -1797,7 +1806,7 @@ DART_EXPORT Dart_Handle Dart_IntegerFitsIntoInt64(Dart_Handle integer,
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_IntegerFitsIntoUint64(Dart_Handle integer,
-                                                   bool *fits);
+                                                   bool* fits);
 
 /**
  * Returns an Integer with the provided value.
@@ -1828,7 +1837,7 @@ DART_EXPORT Dart_Handle Dart_NewIntegerFromUint64(uint64_t value);
  * \return The Integer object if no error occurs. Otherwise returns
  *   an error handle.
  */
-DART_EXPORT Dart_Handle Dart_NewIntegerFromHexCString(const char *value);
+DART_EXPORT Dart_Handle Dart_NewIntegerFromHexCString(const char* value);
 
 /**
  * Gets the value of an Integer.
@@ -1841,7 +1850,7 @@ DART_EXPORT Dart_Handle Dart_NewIntegerFromHexCString(const char *value);
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_IntegerToInt64(Dart_Handle integer,
-                                            int64_t *value);
+                                            int64_t* value);
 
 /**
  * Gets the value of an Integer.
@@ -1855,7 +1864,7 @@ DART_EXPORT Dart_Handle Dart_IntegerToInt64(Dart_Handle integer,
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_IntegerToUint64(Dart_Handle integer,
-                                             uint64_t *value);
+                                             uint64_t* value);
 
 /**
  * Gets the value of an integer as a hexadecimal C string.
@@ -1868,7 +1877,7 @@ DART_EXPORT Dart_Handle Dart_IntegerToUint64(Dart_Handle integer,
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_IntegerToHexCString(Dart_Handle integer,
-                                                 const char **value);
+                                                 const char** value);
 
 /**
  * Returns a Double with the provided value.
@@ -1888,7 +1897,7 @@ DART_EXPORT Dart_Handle Dart_NewDouble(double value);
  *
  * \return A valid handle if no error occurs during the operation.
  */
-DART_EXPORT Dart_Handle Dart_DoubleValue(Dart_Handle double_obj, double *value);
+DART_EXPORT Dart_Handle Dart_DoubleValue(Dart_Handle double_obj, double* value);
 
 /**
  * Returns a closure of static function 'function_name' in the class 'class_name'
@@ -1946,7 +1955,7 @@ DART_EXPORT Dart_Handle Dart_NewBoolean(bool value);
  *
  * \return A valid handle if no error occurs during the operation.
  */
-DART_EXPORT Dart_Handle Dart_BooleanValue(Dart_Handle boolean_obj, bool *value);
+DART_EXPORT Dart_Handle Dart_BooleanValue(Dart_Handle boolean_obj, bool* value);
 
 /*
  * =======
@@ -1962,7 +1971,7 @@ DART_EXPORT Dart_Handle Dart_BooleanValue(Dart_Handle boolean_obj, bool *value);
  *
  * \return A valid handle if no error occurs during the operation.
  */
-DART_EXPORT Dart_Handle Dart_StringLength(Dart_Handle str, intptr_t *length);
+DART_EXPORT Dart_Handle Dart_StringLength(Dart_Handle str, intptr_t* length);
 
 /**
  * Returns a String built from the provided C string
@@ -1975,7 +1984,7 @@ DART_EXPORT Dart_Handle Dart_StringLength(Dart_Handle str, intptr_t *length);
  * \return The String object if no error occurs. Otherwise returns
  *   an error handle.
  */
-DART_EXPORT Dart_Handle Dart_NewStringFromCString(const char *str);
+DART_EXPORT Dart_Handle Dart_NewStringFromCString(const char* str);
 /* TODO(turnidge): Document what happens when we run out of memory
  * during this call. */
 
@@ -1988,7 +1997,7 @@ DART_EXPORT Dart_Handle Dart_NewStringFromCString(const char *str);
  * \return The String object if no error occurs. Otherwise returns
  *   an error handle.
  */
-DART_EXPORT Dart_Handle Dart_NewStringFromUTF8(const uint8_t *utf8_array,
+DART_EXPORT Dart_Handle Dart_NewStringFromUTF8(const uint8_t* utf8_array,
                                                intptr_t length);
 
 /**
@@ -2000,7 +2009,7 @@ DART_EXPORT Dart_Handle Dart_NewStringFromUTF8(const uint8_t *utf8_array,
  * \return The String object if no error occurs. Otherwise returns
  *   an error handle.
  */
-DART_EXPORT Dart_Handle Dart_NewStringFromUTF16(const uint16_t *utf16_array,
+DART_EXPORT Dart_Handle Dart_NewStringFromUTF16(const uint16_t* utf16_array,
                                                 intptr_t length);
 
 /**
@@ -2012,7 +2021,7 @@ DART_EXPORT Dart_Handle Dart_NewStringFromUTF16(const uint16_t *utf16_array,
  * \return The String object if no error occurs. Otherwise returns
  *   an error handle.
  */
-DART_EXPORT Dart_Handle Dart_NewStringFromUTF32(const int32_t *utf32_array,
+DART_EXPORT Dart_Handle Dart_NewStringFromUTF32(const int32_t* utf32_array,
                                                 intptr_t length);
 
 /**
@@ -2030,9 +2039,9 @@ DART_EXPORT Dart_Handle Dart_NewStringFromUTF32(const int32_t *utf32_array,
  *   an error handle.
  */
 DART_EXPORT Dart_Handle
-Dart_NewExternalLatin1String(const uint8_t *latin1_array,
+Dart_NewExternalLatin1String(const uint8_t* latin1_array,
                              intptr_t length,
-                             void *peer,
+                             void* peer,
                              intptr_t external_allocation_size,
                              Dart_WeakPersistentHandleFinalizer callback);
 
@@ -2051,9 +2060,9 @@ Dart_NewExternalLatin1String(const uint8_t *latin1_array,
  *   an error handle.
  */
 DART_EXPORT Dart_Handle
-Dart_NewExternalUTF16String(const uint16_t *utf16_array,
+Dart_NewExternalUTF16String(const uint16_t* utf16_array,
                             intptr_t length,
-                            void *peer,
+                            void* peer,
                             intptr_t external_allocation_size,
                             Dart_WeakPersistentHandleFinalizer callback);
 
@@ -2069,7 +2078,7 @@ Dart_NewExternalUTF16String(const uint16_t *utf16_array,
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_StringToCString(Dart_Handle str,
-                                             const char **cstr);
+                                             const char** cstr);
 
 /**
  * Gets a UTF-8 encoded representation of a String.
@@ -2088,8 +2097,8 @@ DART_EXPORT Dart_Handle Dart_StringToCString(Dart_Handle str,
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_StringToUTF8(Dart_Handle str,
-                                          uint8_t **utf8_array,
-                                          intptr_t *length);
+                                          uint8_t** utf8_array,
+                                          intptr_t* length);
 
 /**
  * Gets the data corresponding to the string object. This function returns
@@ -2105,8 +2114,8 @@ DART_EXPORT Dart_Handle Dart_StringToUTF8(Dart_Handle str,
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_StringToLatin1(Dart_Handle str,
-                                            uint8_t *latin1_array,
-                                            intptr_t *length);
+                                            uint8_t* latin1_array,
+                                            intptr_t* length);
 
 /**
  * Gets the UTF-16 encoded representation of a string.
@@ -2120,8 +2129,8 @@ DART_EXPORT Dart_Handle Dart_StringToLatin1(Dart_Handle str,
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT Dart_Handle Dart_StringToUTF16(Dart_Handle str,
-                                           uint16_t *utf16_array,
-                                           intptr_t *length);
+                                           uint16_t* utf16_array,
+                                           intptr_t* length);
 
 /**
  * Gets the storage size in bytes of a String.
@@ -2132,7 +2141,7 @@ DART_EXPORT Dart_Handle Dart_StringToUTF16(Dart_Handle str,
  *
  * \return A valid handle if no error occurs during the operation.
  */
-DART_EXPORT Dart_Handle Dart_StringStorageSize(Dart_Handle str, intptr_t *size);
+DART_EXPORT Dart_Handle Dart_StringStorageSize(Dart_Handle str, intptr_t* size);
 
 /**
  * Retrieves some properties associated with a String.
@@ -2149,9 +2158,9 @@ DART_EXPORT Dart_Handle Dart_StringStorageSize(Dart_Handle str, intptr_t *size);
  *   an error handle.
  */
 DART_EXPORT Dart_Handle Dart_StringGetProperties(Dart_Handle str,
-                                                 intptr_t *char_size,
-                                                 intptr_t *str_len,
-                                                 void **peer);
+                                                 intptr_t* char_size,
+                                                 intptr_t* str_len,
+                                                 void** peer);
 
 /*
  * =====
@@ -2169,8 +2178,7 @@ DART_EXPORT Dart_Handle Dart_StringGetProperties(Dart_Handle str,
  */
 DART_EXPORT Dart_Handle Dart_NewList(intptr_t length);
 
-typedef enum
-{
+typedef enum {
   Dart_CoreType_Dynamic,
   Dart_CoreType_Int,
   Dart_CoreType_String,
@@ -2232,7 +2240,7 @@ DART_EXPORT Dart_Handle Dart_NewListOfTypeFilled(Dart_Handle element_type,
  *
  * \return A valid handle if no error occurs during the operation.
  */
-DART_EXPORT Dart_Handle Dart_ListLength(Dart_Handle list, intptr_t *length);
+DART_EXPORT Dart_Handle Dart_ListLength(Dart_Handle list, intptr_t* length);
 
 /**
  * Gets the Object at some index of a List.
@@ -2266,7 +2274,7 @@ DART_EXPORT Dart_Handle Dart_ListGetAt(Dart_Handle list, intptr_t index);
 DART_EXPORT Dart_Handle Dart_ListGetRange(Dart_Handle list,
                                           intptr_t offset,
                                           intptr_t length,
-                                          Dart_Handle *result);
+                                          Dart_Handle* result);
 
 /**
  * Sets the Object at some index of a List.
@@ -2290,7 +2298,7 @@ DART_EXPORT Dart_Handle Dart_ListSetAt(Dart_Handle list,
  */
 DART_EXPORT Dart_Handle Dart_ListGetAsBytes(Dart_Handle list,
                                             intptr_t offset,
-                                            uint8_t *native_array,
+                                            uint8_t* native_array,
                                             intptr_t length);
 
 /**
@@ -2298,7 +2306,7 @@ DART_EXPORT Dart_Handle Dart_ListGetAsBytes(Dart_Handle list,
  */
 DART_EXPORT Dart_Handle Dart_ListSetAsBytes(Dart_Handle list,
                                             intptr_t offset,
-                                            const uint8_t *native_array,
+                                            const uint8_t* native_array,
                                             intptr_t length);
 
 /*
@@ -2350,8 +2358,7 @@ DART_EXPORT Dart_Handle Dart_MapKeys(Dart_Handle map);
  * ==========
  */
 
-typedef enum
-{
+typedef enum {
   Dart_TypedData_kByteData = 0,
   Dart_TypedData_kInt8,
   Dart_TypedData_kUint8,
@@ -2410,7 +2417,7 @@ DART_EXPORT Dart_Handle Dart_NewTypedData(Dart_TypedData_Type type,
  *   an error handle.
  */
 DART_EXPORT Dart_Handle Dart_NewExternalTypedData(Dart_TypedData_Type type,
-                                                  void *data,
+                                                  void* data,
                                                   intptr_t length);
 
 /**
@@ -2432,9 +2439,9 @@ DART_EXPORT Dart_Handle Dart_NewExternalTypedData(Dart_TypedData_Type type,
  */
 DART_EXPORT Dart_Handle Dart_NewExternalTypedDataWithFinalizer(
     Dart_TypedData_Type type,
-    void *data,
+    void* data,
     intptr_t length,
-    void *peer,
+    void* peer,
     intptr_t external_allocation_size,
     Dart_WeakPersistentHandleFinalizer callback);
 
@@ -2471,9 +2478,9 @@ DART_EXPORT Dart_Handle Dart_NewByteBuffer(Dart_Handle typed_data);
  *   Otherwise, returns an error handle.
  */
 DART_EXPORT Dart_Handle Dart_TypedDataAcquireData(Dart_Handle object,
-                                                  Dart_TypedData_Type *type,
-                                                  void **data,
-                                                  intptr_t *len);
+                                                  Dart_TypedData_Type* type,
+                                                  void** data,
+                                                  intptr_t* len);
 
 /**
  * Releases access to the internal data address that was acquired earlier using
@@ -2524,7 +2531,7 @@ DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_New(Dart_Handle type,
          Dart_Handle constructor_name,
          int number_of_arguments,
-         Dart_Handle *arguments);
+         Dart_Handle* arguments);
 
 /**
  * Allocate a new object without invoking a constructor.
@@ -2550,7 +2557,7 @@ DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle Dart_Allocate(Dart_Handle type);
 DART_EXPORT Dart_Handle
 Dart_AllocateWithNativeFields(Dart_Handle type,
                               intptr_t num_native_fields,
-                              const intptr_t *native_fields);
+                              const intptr_t* native_fields);
 
 /**
  * Invokes a method or function.
@@ -2579,7 +2586,7 @@ DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_Invoke(Dart_Handle target,
             Dart_Handle name,
             int number_of_arguments,
-            Dart_Handle *arguments);
+            Dart_Handle* arguments);
 /* TODO(turnidge): Document how to invoke operators. */
 
 /**
@@ -2594,7 +2601,7 @@ Dart_Invoke(Dart_Handle target,
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_InvokeClosure(Dart_Handle closure,
                    int number_of_arguments,
-                   Dart_Handle *arguments);
+                   Dart_Handle* arguments);
 
 /**
  * Invokes a Generative Constructor on an object that was previously
@@ -2620,7 +2627,7 @@ DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_InvokeConstructor(Dart_Handle object,
                        Dart_Handle name,
                        int number_of_arguments,
-                       Dart_Handle *arguments);
+                       Dart_Handle* arguments);
 
 /**
  * Gets the value of a field.
@@ -2723,7 +2730,7 @@ DART_EXPORT Dart_Handle Dart_ReThrowException(Dart_Handle exception,
  * Gets the number of native instance fields in an object.
  */
 DART_EXPORT Dart_Handle Dart_GetNativeInstanceFieldCount(Dart_Handle obj,
-                                                         int *count);
+                                                         int* count);
 
 /**
  * Gets the value of a native field.
@@ -2732,7 +2739,7 @@ DART_EXPORT Dart_Handle Dart_GetNativeInstanceFieldCount(Dart_Handle obj,
  */
 DART_EXPORT Dart_Handle Dart_GetNativeInstanceField(Dart_Handle obj,
                                                     int index,
-                                                    intptr_t *value);
+                                                    intptr_t* value);
 
 /**
  * Sets the value of a native field.
@@ -2751,15 +2758,14 @@ DART_EXPORT Dart_Handle Dart_SetNativeInstanceField(Dart_Handle obj,
  * native function by index. It also allows the return value of a
  * native function to be set.
  */
-typedef struct _Dart_NativeArguments *Dart_NativeArguments;
+typedef struct _Dart_NativeArguments* Dart_NativeArguments;
 
 /**
  * Extracts current isolate group data from the native arguments structure.
  */
-DART_EXPORT void *Dart_GetNativeIsolateGroupData(Dart_NativeArguments args);
+DART_EXPORT void* Dart_GetNativeIsolateGroupData(Dart_NativeArguments args);
 
-typedef enum
-{
+typedef enum {
   Dart_NativeArgument_kBool = 0,
   Dart_NativeArgument_kInt32,
   Dart_NativeArgument_kUint32,
@@ -2771,35 +2777,30 @@ typedef enum
   Dart_NativeArgument_kNativeFields,
 } Dart_NativeArgument_Type;
 
-typedef struct _Dart_NativeArgument_Descriptor
-{
+typedef struct _Dart_NativeArgument_Descriptor {
   uint8_t type;
   uint8_t index;
 } Dart_NativeArgument_Descriptor;
 
-typedef union _Dart_NativeArgument_Value
-{
+typedef union _Dart_NativeArgument_Value {
   bool as_bool;
   int32_t as_int32;
   uint32_t as_uint32;
   int64_t as_int64;
   uint64_t as_uint64;
   double as_double;
-  struct
-  {
+  struct {
     Dart_Handle dart_str;
-    void *peer;
+    void* peer;
   } as_string;
-  struct
-  {
+  struct {
     intptr_t num_fields;
-    intptr_t *values;
+    intptr_t* values;
   } as_native_fields;
   Dart_Handle as_instance;
 } Dart_NativeArgument_Value;
 
-enum
-{
+enum {
   kNativeArgNumberPos = 0,
   kNativeArgNumberSize = 8,
   kNativeArgTypePos = kNativeArgNumberPos + kNativeArgNumberSize,
@@ -2807,8 +2808,8 @@ enum
 };
 
 #define BITMASK(size) ((1 << size) - 1)
-#define DART_NATIVE_ARG_DESCRIPTOR(type, position)               \
-  (((type & BITMASK(kNativeArgTypeSize)) << kNativeArgTypePos) | \
+#define DART_NATIVE_ARG_DESCRIPTOR(type, position)                             \
+  (((type & BITMASK(kNativeArgTypeSize)) << kNativeArgTypePos) |               \
    (position & BITMASK(kNativeArgNumberSize)))
 
 /**
@@ -2835,8 +2836,8 @@ enum
 DART_EXPORT Dart_Handle
 Dart_GetNativeArguments(Dart_NativeArguments args,
                         int num_arguments,
-                        const Dart_NativeArgument_Descriptor *arg_descriptors,
-                        Dart_NativeArgument_Value *arg_values);
+                        const Dart_NativeArgument_Descriptor* arg_descriptors,
+                        Dart_NativeArgument_Value* arg_values);
 
 /**
  * Gets the native argument at some index.
@@ -2866,13 +2867,13 @@ DART_EXPORT Dart_Handle
 Dart_GetNativeFieldsOfArgument(Dart_NativeArguments args,
                                int arg_index,
                                int num_fields,
-                               intptr_t *field_values);
+                               intptr_t* field_values);
 
 /**
  * Gets the native field of the receiver.
  */
 DART_EXPORT Dart_Handle Dart_GetNativeReceiver(Dart_NativeArguments args,
-                                               intptr_t *value);
+                                               intptr_t* value);
 
 /**
  * Gets a string native argument at some index.
@@ -2885,7 +2886,7 @@ DART_EXPORT Dart_Handle Dart_GetNativeReceiver(Dart_NativeArguments args,
  */
 DART_EXPORT Dart_Handle Dart_GetNativeStringArgument(Dart_NativeArguments args,
                                                      int arg_index,
-                                                     void **peer);
+                                                     void** peer);
 
 /**
  * Gets an integer native argument at some index.
@@ -2896,7 +2897,7 @@ DART_EXPORT Dart_Handle Dart_GetNativeStringArgument(Dart_NativeArguments args,
  */
 DART_EXPORT Dart_Handle Dart_GetNativeIntegerArgument(Dart_NativeArguments args,
                                                       int index,
-                                                      int64_t *value);
+                                                      int64_t* value);
 
 /**
  * Gets a boolean native argument at some index.
@@ -2907,7 +2908,7 @@ DART_EXPORT Dart_Handle Dart_GetNativeIntegerArgument(Dart_NativeArguments args,
  */
 DART_EXPORT Dart_Handle Dart_GetNativeBooleanArgument(Dart_NativeArguments args,
                                                       int index,
-                                                      bool *value);
+                                                      bool* value);
 
 /**
  * Gets a double native argument at some index.
@@ -2918,7 +2919,7 @@ DART_EXPORT Dart_Handle Dart_GetNativeBooleanArgument(Dart_NativeArguments args,
  */
 DART_EXPORT Dart_Handle Dart_GetNativeDoubleArgument(Dart_NativeArguments args,
                                                      int index,
-                                                     double *value);
+                                                     double* value);
 
 /**
  * Sets the return value for a native function.
@@ -2974,7 +2975,7 @@ typedef void (*Dart_NativeFunction)(Dart_NativeArguments arguments);
  */
 typedef Dart_NativeFunction (*Dart_NativeEntryResolver)(Dart_Handle name,
                                                         int num_of_arguments,
-                                                        bool *auto_setup_scope);
+                                                        bool* auto_setup_scope);
 /* TODO(turnidge): Consider renaming to NativeFunctionResolver or
  * NativeResolver. */
 
@@ -2993,7 +2994,7 @@ typedef Dart_NativeFunction (*Dart_NativeEntryResolver)(Dart_Handle name,
  *
  * See Dart_SetNativeResolver.
  */
-typedef const uint8_t *(*Dart_NativeEntrySymbol)(Dart_NativeFunction nf);
+typedef const uint8_t* (*Dart_NativeEntrySymbol)(Dart_NativeFunction nf);
 
 /*
  * ===========
@@ -3044,7 +3045,7 @@ Dart_SetNativeResolver(Dart_Handle library,
  * \return A valid handle if the library was found.
  */
 DART_EXPORT Dart_Handle
-Dart_GetNativeResolver(Dart_Handle library, Dart_NativeEntryResolver *resolver);
+Dart_GetNativeResolver(Dart_Handle library, Dart_NativeEntryResolver* resolver);
 
 /**
  * Returns the callback used to resolve native function symbols for a library.
@@ -3055,7 +3056,7 @@ Dart_GetNativeResolver(Dart_Handle library, Dart_NativeEntryResolver *resolver);
  * \return A valid handle if the library was found.
  */
 DART_EXPORT Dart_Handle Dart_GetNativeSymbol(Dart_Handle library,
-                                             Dart_NativeEntrySymbol *resolver);
+                                             Dart_NativeEntrySymbol* resolver);
 
 /*
  * =====================
@@ -3063,8 +3064,7 @@ DART_EXPORT Dart_Handle Dart_GetNativeSymbol(Dart_Handle library,
  * =====================
  */
 
-typedef enum
-{
+typedef enum {
   Dart_kCanonicalizeUrl = 0,
   Dart_kImportTag,
   Dart_kKernelTag,
@@ -3162,8 +3162,8 @@ Dart_SetDeferredLoadHandler(Dart_DeferredLoadHandler handler);
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_DeferredLoadComplete(intptr_t loading_unit_id,
-                          const uint8_t *snapshot_data,
-                          const uint8_t *snapshot_instructions);
+                          const uint8_t* snapshot_data,
+                          const uint8_t* snapshot_instructions);
 
 /**
  * Notifies the VM that a deferred load failed. This function
@@ -3179,7 +3179,7 @@ Dart_DeferredLoadComplete(intptr_t loading_unit_id,
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_DeferredLoadCompleteError(intptr_t loading_unit_id,
-                               const char *error_message,
+                               const char* error_message,
                                bool transient);
 
 /**
@@ -3214,7 +3214,7 @@ DART_EXPORT Dart_Handle Dart_DefaultCanonicalizeUrl(Dart_Handle base_url,
  * \return A handle to the root library, or an error.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_LoadScriptFromKernel(const uint8_t *kernel_buffer, intptr_t kernel_size);
+Dart_LoadScriptFromKernel(const uint8_t* kernel_buffer, intptr_t kernel_size);
 
 /**
  * Gets the library for the root script for the current isolate.
@@ -3251,7 +3251,7 @@ DART_EXPORT Dart_Handle Dart_SetRootLibrary(Dart_Handle library);
 DART_EXPORT Dart_Handle Dart_GetType(Dart_Handle library,
                                      Dart_Handle class_name,
                                      intptr_t number_of_type_arguments,
-                                     Dart_Handle *type_arguments);
+                                     Dart_Handle* type_arguments);
 
 /**
  * Lookup or instantiate a nullable type by name and type arguments from
@@ -3270,7 +3270,7 @@ DART_EXPORT Dart_Handle Dart_GetType(Dart_Handle library,
 DART_EXPORT Dart_Handle Dart_GetNullableType(Dart_Handle library,
                                              Dart_Handle class_name,
                                              intptr_t number_of_type_arguments,
-                                             Dart_Handle *type_arguments);
+                                             Dart_Handle* type_arguments);
 
 /**
  * Lookup or instantiate a non-nullable type by name and type arguments from
@@ -3290,7 +3290,7 @@ DART_EXPORT Dart_Handle
 Dart_GetNonNullableType(Dart_Handle library,
                         Dart_Handle class_name,
                         intptr_t number_of_type_arguments,
-                        Dart_Handle *type_arguments);
+                        Dart_Handle* type_arguments);
 
 /**
  * Creates a nullable version of the provided type.
@@ -3321,9 +3321,9 @@ DART_EXPORT Dart_Handle Dart_TypeToNonNullableType(Dart_Handle type);
  *
  * \return Returns an error handle if type is not of type Type.
  */
-DART_EXPORT Dart_Handle Dart_IsNullableType(Dart_Handle type, bool *result);
-DART_EXPORT Dart_Handle Dart_IsNonNullableType(Dart_Handle type, bool *result);
-DART_EXPORT Dart_Handle Dart_IsLegacyType(Dart_Handle type, bool *result);
+DART_EXPORT Dart_Handle Dart_IsNullableType(Dart_Handle type, bool* result);
+DART_EXPORT Dart_Handle Dart_IsNonNullableType(Dart_Handle type, bool* result);
+DART_EXPORT Dart_Handle Dart_IsLegacyType(Dart_Handle type, bool* result);
 
 /**
  * Lookup a class or interface by name from a Library.
@@ -3383,7 +3383,7 @@ DART_EXPORT Dart_Handle Dart_LibraryHandleError(Dart_Handle library,
  * \return A handle to the main library of the compilation unit, or an error.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_LoadLibraryFromKernel(const uint8_t *kernel_buffer,
+Dart_LoadLibraryFromKernel(const uint8_t* kernel_buffer,
                            intptr_t kernel_buffer_size);
 
 /**
@@ -3436,7 +3436,7 @@ Dart_FinalizeLoading(bool complete_futures);
  * \return Returns an error if 'object' is a subtype of Null, num, or
  *   bool.
  */
-DART_EXPORT Dart_Handle Dart_GetPeer(Dart_Handle object, void **peer);
+DART_EXPORT Dart_Handle Dart_GetPeer(Dart_Handle object, void** peer);
 
 /**
  * Sets the value of the peer field of 'object' to the value of
@@ -3448,7 +3448,7 @@ DART_EXPORT Dart_Handle Dart_GetPeer(Dart_Handle object, void **peer);
  * \return Returns an error if 'object' is a subtype of Null, num, or
  *   bool.
  */
-DART_EXPORT Dart_Handle Dart_SetPeer(Dart_Handle object, void *peer);
+DART_EXPORT Dart_Handle Dart_SetPeer(Dart_Handle object, void* peer);
 
 /*
  * ======
@@ -3465,20 +3465,18 @@ DART_EXPORT Dart_Handle Dart_SetPeer(Dart_Handle object, void *peer);
 
 // TODO(33433): Remove kernel service from the embedding API.
 
-typedef enum
-{
+typedef enum {
   Dart_KernelCompilationStatus_Unknown = -1,
   Dart_KernelCompilationStatus_Ok = 0,
   Dart_KernelCompilationStatus_Error = 1,
   Dart_KernelCompilationStatus_Crash = 2,
 } Dart_KernelCompilationStatus;
 
-typedef struct
-{
+typedef struct {
   Dart_KernelCompilationStatus status;
   bool null_safety;
-  char *error;
-  uint8_t *kernel;
+  char* error;
+  uint8_t* kernel;
   intptr_t kernel_size;
 } Dart_KernelCompilationResult;
 
@@ -3507,16 +3505,15 @@ DART_EXPORT Dart_Port Dart_KernelPort();
  * Requires there to be a current isolate.
  */
 DART_EXPORT Dart_KernelCompilationResult
-Dart_CompileToKernel(const char *script_uri,
-                     const uint8_t *platform_kernel,
+Dart_CompileToKernel(const char* script_uri,
+                     const uint8_t* platform_kernel,
                      const intptr_t platform_kernel_size,
                      bool incremental_compile,
-                     const char *package_config);
+                     const char* package_config);
 
-typedef struct
-{
-  const char *uri;
-  const char *source;
+typedef struct {
+  const char* uri;
+  const char* source;
 } Dart_SourceFile;
 
 DART_EXPORT Dart_KernelCompilationResult Dart_KernelListDependencies();
@@ -3531,7 +3528,7 @@ DART_EXPORT Dart_KernelCompilationResult Dart_KernelListDependencies();
  * \param platform_kernel_size The length of the platform_kernel buffer.
  */
 DART_EXPORT void Dart_SetDartLibrarySourcesKernel(
-    const uint8_t *platform_kernel,
+    const uint8_t* platform_kernel,
     const intptr_t platform_kernel_size);
 
 /**
@@ -3569,12 +3566,12 @@ DART_EXPORT void Dart_SetDartLibrarySourcesKernel(
  *   run `script_uri`, `snapshot_data` or `kernel_buffer`.
  *
  */
-DART_EXPORT bool Dart_DetectNullSafety(const char *script_uri,
-                                       const char *package_config,
-                                       const char *original_working_directory,
-                                       const uint8_t *snapshot_data,
-                                       const uint8_t *snapshot_instructions,
-                                       const uint8_t *kernel_buffer,
+DART_EXPORT bool Dart_DetectNullSafety(const char* script_uri,
+                                       const char* package_config,
+                                       const char* original_working_directory,
+                                       const uint8_t* snapshot_data,
+                                       const uint8_t* snapshot_instructions,
+                                       const uint8_t* kernel_buffer,
                                        intptr_t kernel_buffer_size);
 
 #define DART_KERNEL_ISOLATE_NAME "kernel-service"
@@ -3607,7 +3604,7 @@ DART_EXPORT bool Dart_IsServiceIsolate(Dart_Isolate isolate);
  * \return Returns true if the profile is successfully written and false
  *         otherwise.
  */
-DART_EXPORT bool Dart_WriteProfileToTimeline(Dart_Port main_port, char **error);
+DART_EXPORT bool Dart_WriteProfileToTimeline(Dart_Port main_port, char** error);
 
 /*
  * ====================
@@ -3625,7 +3622,7 @@ DART_EXPORT bool Dart_WriteProfileToTimeline(Dart_Port main_port, char **error);
  * \return Returns an valid handle upon success.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_SaveCompilationTrace(uint8_t **buffer, intptr_t *buffer_length);
+Dart_SaveCompilationTrace(uint8_t** buffer, intptr_t* buffer_length);
 
 /**
  * Compile all functions from data from Dart_SaveCompilationTrace. Unlike JIT
@@ -3636,7 +3633,7 @@ Dart_SaveCompilationTrace(uint8_t **buffer, intptr_t *buffer_length);
  * \return Returns an error handle if a compilation error was encountered.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_LoadCompilationTrace(uint8_t *buffer, intptr_t buffer_length);
+Dart_LoadCompilationTrace(uint8_t* buffer, intptr_t buffer_length);
 
 /**
  * Record runtime feedback for the current isolate, including type feedback
@@ -3649,7 +3646,7 @@ Dart_LoadCompilationTrace(uint8_t *buffer, intptr_t buffer_length);
  * \return Returns an valid handle upon success.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_SaveTypeFeedback(uint8_t **buffer, intptr_t *buffer_length);
+Dart_SaveTypeFeedback(uint8_t** buffer, intptr_t* buffer_length);
 
 /**
  * Compile functions using data from Dart_SaveTypeFeedback. The data must from a
@@ -3659,7 +3656,7 @@ Dart_SaveTypeFeedback(uint8_t **buffer, intptr_t *buffer_length);
  *   version mismatch is detected.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_LoadTypeFeedback(uint8_t *buffer, intptr_t buffer_length);
+Dart_LoadTypeFeedback(uint8_t* buffer, intptr_t buffer_length);
 
 /*
  * ==============
@@ -3680,14 +3677,16 @@ Dart_LoadTypeFeedback(uint8_t *buffer, intptr_t buffer_length);
 DART_EXPORT Dart_Handle Dart_Precompile();
 
 typedef void (*Dart_CreateLoadingUnitCallback)(
-    void *callback_data,
+    void* callback_data,
     intptr_t loading_unit_id,
-    void **write_callback_data,
-    void **write_debug_callback_data);
-typedef void (*Dart_StreamingWriteCallback)(void *callback_data,
-                                            const uint8_t *buffer,
+    void** write_callback_data,
+    void** write_debug_callback_data);
+typedef void (*Dart_StreamingWriteCallback)(void* callback_data,
+                                            const uint8_t* buffer,
                                             intptr_t size);
-typedef void (*Dart_StreamingCloseCallback)(void *callback_data);
+typedef void (*Dart_StreamingCloseCallback)(void* callback_data);
+
+DART_EXPORT Dart_Handle Dart_LoadingUnitLibraryUris(intptr_t loading_unit_id);
 
 // On Darwin systems, 'dlsym' adds an '_' to the beginning of the symbol name.
 // Use the '...CSymbol' definitions for resolving through 'dlsym'. The actual
@@ -3710,7 +3709,7 @@ typedef void (*Dart_StreamingCloseCallback)(void *callback_data);
 #define kVmSnapshotDataAsmSymbol "_kDartVmSnapshotData"
 #define kVmSnapshotInstructionsAsmSymbol "_kDartVmSnapshotInstructions"
 #define kIsolateSnapshotDataAsmSymbol "_kDartIsolateSnapshotData"
-#define kIsolateSnapshotInstructionsAsmSymbol \
+#define kIsolateSnapshotInstructionsAsmSymbol                                  \
   "_kDartIsolateSnapshotInstructions"
 
 /**
@@ -3740,13 +3739,13 @@ typedef void (*Dart_StreamingCloseCallback)(void *callback_data);
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_CreateAppAOTSnapshotAsAssembly(Dart_StreamingWriteCallback callback,
-                                    void *callback_data,
+                                    void* callback_data,
                                     bool stripped,
-                                    void *debug_callback_data);
+                                    void* debug_callback_data);
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_CreateAppAOTSnapshotAsAssemblies(
     Dart_CreateLoadingUnitCallback next_callback,
-    void *next_callback_data,
+    void* next_callback_data,
     bool stripped,
     Dart_StreamingWriteCallback write_callback,
     Dart_StreamingCloseCallback close_callback);
@@ -3780,12 +3779,12 @@ Dart_CreateAppAOTSnapshotAsAssemblies(
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_CreateAppAOTSnapshotAsElf(Dart_StreamingWriteCallback callback,
-                               void *callback_data,
+                               void* callback_data,
                                bool stripped,
-                               void *debug_callback_data);
+                               void* debug_callback_data);
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_CreateAppAOTSnapshotAsElfs(Dart_CreateLoadingUnitCallback next_callback,
-                                void *next_callback_data,
+                                void* next_callback_data,
                                 bool stripped,
                                 Dart_StreamingWriteCallback write_callback,
                                 Dart_StreamingCloseCallback close_callback);
@@ -3798,7 +3797,7 @@ Dart_CreateAppAOTSnapshotAsElfs(Dart_CreateLoadingUnitCallback next_callback,
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_CreateVMAOTSnapshotAsAssembly(Dart_StreamingWriteCallback callback,
-                                   void *callback_data);
+                                   void* callback_data);
 
 /**
  * Sorts the class-ids in depth first traversal order of the inheritance
@@ -3831,24 +3830,24 @@ DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle Dart_SortClasses();
  * \return A valid handle if no error occurs during the operation.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_CreateAppJITSnapshotAsBlobs(uint8_t **isolate_snapshot_data_buffer,
-                                 intptr_t *isolate_snapshot_data_size,
-                                 uint8_t **isolate_snapshot_instructions_buffer,
-                                 intptr_t *isolate_snapshot_instructions_size);
+Dart_CreateAppJITSnapshotAsBlobs(uint8_t** isolate_snapshot_data_buffer,
+                                 intptr_t* isolate_snapshot_data_size,
+                                 uint8_t** isolate_snapshot_instructions_buffer,
+                                 intptr_t* isolate_snapshot_instructions_size);
 
 /**
  * Like Dart_CreateAppJITSnapshotAsBlobs, but also creates a new VM snapshot.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_CreateCoreJITSnapshotAsBlobs(
-    uint8_t **vm_snapshot_data_buffer,
-    intptr_t *vm_snapshot_data_size,
-    uint8_t **vm_snapshot_instructions_buffer,
-    intptr_t *vm_snapshot_instructions_size,
-    uint8_t **isolate_snapshot_data_buffer,
-    intptr_t *isolate_snapshot_data_size,
-    uint8_t **isolate_snapshot_instructions_buffer,
-    intptr_t *isolate_snapshot_instructions_size);
+    uint8_t** vm_snapshot_data_buffer,
+    intptr_t* vm_snapshot_data_size,
+    uint8_t** vm_snapshot_instructions_buffer,
+    intptr_t* vm_snapshot_instructions_size,
+    uint8_t** isolate_snapshot_data_buffer,
+    intptr_t* isolate_snapshot_data_size,
+    uint8_t** isolate_snapshot_instructions_buffer,
+    intptr_t* isolate_snapshot_instructions_size);
 
 /**
  * Get obfuscation map for precompiled code.
@@ -3860,7 +3859,7 @@ Dart_CreateCoreJITSnapshotAsBlobs(
  * support obfuscation.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
-Dart_GetObfuscationMap(uint8_t **buffer, intptr_t *buffer_length);
+Dart_GetObfuscationMap(uint8_t** buffer, intptr_t* buffer_length);
 
 /**
  *  Returns whether the VM only supports running from precompiled snapshots and
@@ -3876,7 +3875,7 @@ DART_EXPORT bool Dart_IsPrecompiledRuntime();
  *  should be a CONTEXT* (Windows) or ucontext_t* (POSIX) from a signal handler
  *  running on the current thread.
  */
-DART_EXPORT void Dart_DumpNativeStackTrace(void *context);
+DART_EXPORT void Dart_DumpNativeStackTrace(void* context);
 
 /**
  *  Indicate that the process is about to abort, and the Dart VM should not

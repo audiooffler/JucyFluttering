@@ -45,6 +45,7 @@ void JucyFlutteringJuceApplication::systemRequestedQuit()
 
 // ---- Timer implementation ---------------------------------------------------
 
+// this will send the counter value as an async message to Flutters receiver port
 void JucyFlutteringJuceApplication::timerCallback()
 {
     i++;
