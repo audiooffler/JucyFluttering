@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT name="Jucy Fluttering" version="0.0.1" userNotes="A simple mobile app example (iOS, Android) that uses a Flutter UI and JUCE as backend."
+<JUCERPROJECT name="Jucy Fluttering" version="0.0.2" userNotes="A simple mobile app example (iOS, Android) that uses a Flutter UI and JUCE as backend."
               useAppConfig="0" addUsingNamespaceToJuceHeader="1" id="sRCsV2"
               displaySplashScreen="1" jucerFormatVersion="1" bundleIdentifier="eu.selfhost.audiooffler"
               companyCopyright="&#169; 2020, audiooffler" companyEmail="sp.martin@gmx.net"
@@ -90,10 +90,10 @@
                   smallIcon="klBN0Z" bigIcon="klBN0Z">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="JucyFluttering"
-                       binaryPath="$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)"
+                       binaryPath="/$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)"
                        headerPath="Source/DartApiDL"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="JucyFluttering"
-                       binaryPath="$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)"
+                       binaryPath="/$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)"
                        headerPath="Source/DartApiDL"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
